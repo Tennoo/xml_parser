@@ -1,0 +1,2279 @@
+<viewActions>
+	<actions view="MAPVIEW">
+		<action id="digNewPole" repeating="true">
+			<selectService id="path" layerFilter="4 6" minSelect="1"
+				maxSelect="1" prompt="Select point or position" promptKey="action.dignewpole.selectservice.prompt"
+				helpKey="action.dignewpole.selectservice.help" />
+		</action>
+		<action id="digNewTrack" repeating="true">
+			<polyLineConstructionService id="path"
+				startLayerFilter="4 6 7" endLayerFilter="6" prompt="Select point or position"
+				promptKey="action.dignewtrack.selectservice.prompt" helpKey="action.dignewtrack.selectservice.help">
+				<!--textInput id="myText1" mandatory="true" label="Enter something" labelKey="action.dignewtrack.selectservice.textinput.label" 
+					hintText="Some explanation..." hintTextKey="action.dignewtrack.selectservice.textinput.hinttext" 
+					/ -->
+			</polyLineConstructionService>
+		</action>
+		<action id="digMoveTrackPoint">
+			<selectService id="path" layerFilter="4"
+				allowCoordSelection="true" allowObjectSelection="true" minSelect="2"
+				maxSelect="2" prompt="Select trackPoint and then new position"
+				promptKey="action.dignewtrackpoint.selectservice.prompt" helpKey="action.dignewtrackpoint.selectservice.help" />
+		</action>
+		<action id="digMoveTrackNode">
+			<selectService id="path" layerFilter="6"
+				allowCoordSelection="true" allowObjectSelection="true" minSelect="2"
+				maxSelect="2" prompt="Select tracknode and then new position"
+				promptKey="action.dignewtracknode.selectservice.prompt" helpKey="action.dignewtracknode.selectservice.help" />
+		</action>
+		<action id="digNewControlPoint" repeating="true">
+			<selectService id="path" layerFilter="4 6" minSelect="1"
+				maxSelect="1" prompt="Select point or position"
+				promptKey="action.dignewcontrolpoint.selectservice.prompt" helpKey="action.dignewcontrolpoint.selectservice.help" />
+		</action>
+		<action id="digNewFlexPoint" repeating="true">
+			<selectService id="path" layerFilter="6"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="1" prompt="Enter name and select track node" promptKey="action.dignewflexpoint.selectservice.prompt"
+				helpKey="action.dignewflexpoint.selectservice.help">
+				<textInput id="name" mandatory="true" label="Enter name"
+					labelKey="action.dignewflexpoint.selectservice.name.label"
+					hintText="Flexibility point name" hintTextKey="action.dignewflexPoint.selectservice.name.hinttext" />
+			</selectService>
+		</action>
+		<action id="buildFlexPointFromTemplate" repeating="true">
+			<selectService id="path" layerFilter="6"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="1" prompt="Enter name and select track node"
+				promptKey="action.buildFlexPointFromTemplate.selectservice.prompt"
+				helpKey="action.buildFlexPointFromTemplate.selectservice.help">
+				<textInput id="name" mandatory="true" label="Name" row="1"
+					labelKey="action.buildFlexPointFromTemplate.selectservice.name.label"
+					hintText="Flexibility point name"
+					hintTextKey="action.buildFlexPointFromTemplate.selectservice.name.hinttext" />
+				<textInput id="template" mandatory="true" label="Template name"
+					fieldType="DomainObject" row="2"
+					lookupFunction="function?function=getTemplates?classId=11?name=:template"
+					labelKey="action.buildFlexPointFromTemplate.selectservice.template.label"
+					hintText=""
+					hintTextKey="action.buildFlexPointFromTemplate.selectservice.template.hinttext" />
+			</selectService>
+		</action>
+		<action id="digNewSpliceJunction" repeating="true">
+			<selectService id="path" layerFilter="6"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="1" prompt="Enter name and select track node"
+				promptKey="action.dignewsplicejunction.selectservice.prompt"
+				helpKey="action.dignewflexpoint.selectservice.help">
+				<textInput id="name" mandatory="true" label="Enter name"
+					labelKey="action.dignewsplicejunction.selectservice.name.label"
+					hintText="Splice Junction name" hintTextKey="action.dignewsplicejunction.selectservice.name.hinttext" />
+			</selectService>
+		</action>
+		<action id="digNewCable" repeating="true">
+			<selectService id="path" layerFilter="7"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				prompt="Select track section, enter name. Possible to select which cablenodes to connect to (optional)"
+				promptKey="action.dignewcable.selectservice.prompt" helpKey="action.dignewcable.selectservice.help">
+				<eventHandlers>
+					<eventHandler event="valueCommit" operation="callFunction"
+						target="node1" />
+					<eventHandler event="valueCommit" operation="callFunction"
+						target="node2" />
+				</eventHandlers>
+				<textInput id="name" mandatory="true" label="Enter name"
+					labelKey="action.dignewcable.selectservice.name.label" hintText="Cable name"
+					hintTextKey="action.dignewcable.selectservice.name.hinttext" />
+				<domainObjectList id="node1" mandatory="false" row="2" displayHeight="6"
+					repeating="false" groupId="Possible CableNodes in each end"
+					singleSelect="true"
+					valueFunction="function?function=getCableNodesInTrackNode?selection=:path?end=0?returnType=DomainObject?"
+					labelKey="action.dignewcable.domainObjectList.node1.label" />
+				<domainObjectList id="node2" mandatory="false" row="3" displayHeight="6"
+					repeating="false" groupId="Possible CableNodes in each end"
+					singleSelect="true"
+					valueFunction="function?function=getCableNodesInTrackNode?selection=:path?end=1?returnType=DomainObject?"
+					labelKey="action.dignewcable.domainObjectList.node2.label" />
+			</selectService>
+		</action>
+		<action id="digNewPipe" repeating="true">
+			<selectService id="path" layerFilter="6 7"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="3"
+				prompt="Enter number of pipes and select track section and/or endnodes"
+				promptKey="action.dignewcable.selectservice.prompt" helpKey="action.dignewcable.selectservice.help">
+				<textInput id="count" mandatory="true" label="Enter pipe count"
+					labelKey="action.dignewpipe.selectservice.count.label" hintText="Number of pipes"
+					hintTextKey="action.dignewpipe.selectservice.count.hinttext" />
+			</selectService>
+		</action>
+		<action id="digNewDuctNode" repeating="true">
+			<selectService id="path" layerFilter="6"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="1" prompt="Select tracknode for ductnode position"
+				promptKey="action.dignewductnode.selectservice.prompt" helpKey="action.dignewductnode.selectservice.help">
+				<textInput id="name" mandatory="false" label="Enter name"
+					labelKey="action.dignewductnode.selectservice.name.label"
+					hintText="Ductnode name is mandatory for pullthrough point and buried pullthrough point. Optional for other ductnodes."
+					hintTextKey="action.dignewductnode.selectservice.name.hinttext" />
+			</selectService>
+		</action>
+		<action id="digNewDuct" repeating="true">
+			<selectService id="path" layerFilter="7"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="100" prompt="Select tracksection for duct position"
+				promptKey="action.dignewduct.selectservice.prompt" helpKey="action.dignewduct.selectservice.help" />
+		</action>
+		<action id="digNewLocalMeasurement" repeating="true">
+			<polyLineConstructionService id="path"
+				measureMode="true" startLayerFilter="4 6" endLayerFilter="4 6"
+				prompt="Select point or positions" promptKey="action.dignewlocalmeasurenet.selectservice.prompt"
+				offsetPrompt="Select offset point"
+				offsetPromptKey="action.dignewlocalmeasurenet.selectservice.offsetprompt"
+				helpKey="action.dignewlocalmeasurenet.selectservice.help">
+				<textInput id="temp" mandatory="false" label="Temporary Measurement"
+					fieldType="boolean" value="1"
+					labelKey="action.dignewlocalmeasurenet.polyLineConstructionService.temp.label"
+					hintText="Temporary means that the measurement is not stored in the database"
+					hintTextKey="action.dignewlocalmeasurenet.polyLineConstructionService.temp.hinttext" />
+			</polyLineConstructionService>
+		</action>
+		<action id="digNewPowerLine" repeating="true">
+			<polyLineConstructionService id="path"
+				startLayerFilter="212" endLayerFilter="212"
+				prompt="Select point or position and enter name." promptKey="action.digNewPowerLine.selectservice.prompt"
+				helpKey="action.digNewPowerLine.selectservice.help">
+				<textInput id="name" mandatory="true" label="Name"
+					hintText="Enter name of powerline" labelKey="action.digNewPowerLine.selectservice.textinput.label"
+					hintTextKey="action.digNewPowerLine.selectservice.textinput.hinttext" />
+			</polyLineConstructionService>
+		</action>
+		<action id="digNewPointRemark" repeating="true">
+			<selectService id="path" layerFilter="6"
+				allowCoordSelection="true" allowObjectSelection="false" minSelect="1"
+				maxSelect="1" prompt="Select position for Remark point" promptKey="action.dignewremarkpoint.selectservice.prompt"
+				helpKey="action.dignewremarkpoint.selectservice.help">
+				<textInput id="name" mandatory="false" label="Enter name"
+					labelKey="action.dignewremarkpoint.selectservice.name.label"
+					hintText="Remark point name is mandatory." hintTextKey="action.dignewremarkpoint.selectservice.name.hinttext" />
+			</selectService>
+		</action>
+		<action id="digPositionFlexPoint" repeating="true">
+			<selectService id="path" layerFilter="6"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="1" prompt="Enter name and select track node"
+				promptKey="action.digpositionflexpoint.selectservice.prompt"
+				helpKey="action.digpositionflexpoint.selectservice.help">
+				<textInput id="object" mandatory="true" label="Enter name"
+					lookupFunction="nameQuery?name=:object?classId=11" classFilter="11"
+					labelKey="action.digpositionflexpoint.selectservice.object.label"
+					hintText="Flexibility point name"
+					hintTextKey="action.digpositionflexpoint.selectservice.object.hinttext" />
+			</selectService>
+		</action>
+		<action id="digDepositionFlexPoint">
+			<selectService id="objects" layerFilter="11"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="100" prompt="Select flexibility point"
+				promptKey="action.digdepositionflexpoint.selectservice.prompt"
+				helpKey="action.digdepositionflexpoint.selectservice.help">
+			</selectService>
+		</action>
+		<action id="digPositionSpliceJunction" repeating="true">
+			<selectService id="path" layerFilter="6"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="1" prompt="Enter name and select track node"
+				promptKey="action.digpositionsplicejunction.selectservice.prompt"
+				helpKey="action.digpositionsplicejunction.selectservice.help">
+				<textInput id="object" mandatory="true" label="Enter name"
+					classFilter="22" lookupFunction="nameQuery?name=:object?classId=22"
+					labelKey="action.digpositionsplicejunction.selectservice.object.label"
+					hintText="Splice junction name"
+					hintTextKey="action.digpositionsplicejunction.selectservice.object.hinttext" />
+			</selectService>
+		</action>
+		<action id="digPositionPole" repeating="true">
+			<selectService id="path" layerFilter="6"
+				allowCoordSelection="true" allowObjectSelection="true" minSelect="1"
+				maxSelect="1" prompt="Enter name and select track node or position."
+				promptKey="action.digpositionpole.selectservice.prompt" helpKey="action.digpositionpole.selectservice.help">
+				<textInput id="object" mandatory="true" label="Enter name"
+					classFilter="14" lookupFunction="nameQuery?name=:object?classId=14"
+					labelKey="action.digpositionpole.selectservice.object.label"
+					hintText="Pole name" hintTextKey="action.digpositionpole.selectservice.object.hinttext" />
+			</selectService>
+		</action>
+		<action id="digPositionCable" repeating="true">
+			<selectService id="path" layerFilter="7"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="100" prompt="Enter name and select tracksection."
+				promptKey="action.digpositioncable.selectservice.prompt" helpKey="action.digpositioncable.selectservice.help">
+				<textInput id="object" mandatory="true" label="Enter name"
+					classFilter="27" lookupFunction="nameQuery?name=:object?classId=27"
+					labelKey="action.digpositioncable.selectservice.object.label"
+					hintText="Cable name" hintTextKey="action.digpositioncable.selectservice.object.hinttext" />
+			</selectService>
+		</action>
+		<action id="digDepositionCable" repeating="true">
+			<selectService id="path" layerFilter="7"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="1" prompt="Select cablepath"
+				promptKey="action.digdepositioncable.selectservice.prompt" helpKey="action.digdepositioncable.selectservice.help">
+				<eventHandlers>
+					<eventHandler event="valueCommit" operation="callFunction"
+						target="cableList" />
+				</eventHandlers>
+				<domainObjectList id="cableList" mandatory="true"
+					row="1"
+					valueFunction="function?function=getCablesInTrack?selection=:path?returnType=DomainObject?"
+					labelKey="action.digdepositioncable.domainObjectList.cableList.label" />
+			</selectService>
+		</action>
+		<action id="digCombParallelTrack" repeating="true"
+			workOrderMode="true" workOrderFieldId="workOrderId">
+			<selectService id="targetPath" layerFilter="7" filterCurrentSelection="true"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				prompt="Select target track section path" promptKey="action.digCombinePallelTracks.selectservice.prompt"
+				helpKey="action.dignewcable.digCombinePallelTracks.help"
+				initialState="noTargetTrack">
+				<eventHandlers>
+					<eventHandler event="valueCommit" operation="setState"
+						arg="targetTrackSelected" />
+					<eventHandler event="valueCommit" operation="setValue"
+						arg="null" target="candidatePaths" />
+					<eventHandler event="valueIncomplete" operation="setState"
+						arg="noTargetTrack" />
+					<eventHandler event="valueIncomplete" operation="setValue"
+						arg="null" target="candidatePaths" />
+				</eventHandlers>
+				<textInput id="workOrderId" mandatory="true" row="1"
+					disabledStates="off" displayLength="1"
+					valueFunction="function?bean=Util.getCurrPlanProject?returnType=String"
+					label="Plan project Id" labelKey="action.digCombParallelTrack.selectservice.workOrderId.label"
+					hintText=""
+					hintTextKey="action.digCombParallelTrack.selectservice.workOrderId.hinttext">
+				</textInput>
+				<textInput id="edgeTolerance" mandatory="false"
+					label="Track Distance Tolerance (Metres)" row="2" value="0.5"
+					labelKey="action.digCombinePallelTracks.selectservice.edgeTolerance.label"
+					hintText="A distance threshold value in metres specifying when a nearby track section can be considered a candidate for combination"
+					hintTextKey="action.digCombinePallelTracks.selectservice.edgeTolerance.hinttext" />
+				<textInput id="nodeTolerance" mandatory="false"
+					label="Node Snap Tolerance (Metres)" row="2" value="0.5"
+					labelKey="action.digCombinePallelTracks.selectservice.nodeTolerance.label"
+					hintText="A distance threshold value in metres specifying when a nearby node can be condidered a candidate for combination"
+					hintTextKey="action.digCombinePallelTracks.selectservice.nodeTolerance.hinttext" />
+				<actionButton id="traceButton" label="Find Parallel Tracks"
+					row="3" disabledStates="noTargetTrack"
+					labelKey="action.digCombinePallelTracks.selectservice.traceButton.label"
+					hintText="" hintTextKey="">
+					<eventHandlers>
+						<eventHandler event="click" operation="callFunction"
+							target="candidatePaths" />
+					</eventHandlers>
+				</actionButton>
+				<domainObjectCollectionList id="candidatePaths"
+					mandatory="true" row="4" repeating="false" displayHeight="6"
+					label="Parallel Tracks Found" singleSelect="false" autoCheckLimit="20"
+					valueFunction="function?function=getNearbyTrackPaths?targetPath=:targetPath?edgeTolerance=:edgeTolerance?returnType=NamedCollectionListItem"
+					labelKey="action.digCombinePallelTracks.domainObjectCollectionList.candidatePaths.label" />
+			</selectService>
+		</action>
+		<action id="followCoursePair" type="readOnly" resultType="position">
+			<selectService id="node" layerFilter="11 22"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="1" initialState="off"
+				prompt="Select cablenode (FP/SP). Select cable in list and enter pair number and distance."
+				promptKey="action.followcoursepair.selectservice.prompt" helpKey="action.followcoursepair.selectservice.help">
+				<eventHandlers>
+					<eventHandler event="valueCommit" operation="callFunction"
+						target="cableList" />
+					<eventHandler event="valueCommit" operation="setState"
+						arg="on" />
+				</eventHandlers>
+				<domainObjectList id="cableList" mandatory="true"
+					row="1" singleSelect="true" groupId="Follow cable"
+					groupIdKey="action.followcoursepair.selectservice.group.cables"
+					valueFunction="function?function=getCablesConnectedToNode?selection=:node?returnType=DomainObject?"
+					labelKey="action.followcoursepair.domainObjectList.cableList.label" />
+				<textInput id="pair" mandatory="true" label="Pair number" repeating="false"
+					row="2" disabledStates="off" column="1"
+					labelKey="action.followcoursepair.selectservice.pair.label"
+					hintText="Cable pair" hintTextKey="action.followcoursepair.selectservice.pair.hinttext" />
+				<textInput id="dist" mandatory="true" label="Distance" repeating="false"
+					fieldType="number" row="2" disabledStates="off" column="2"
+					labelKey="action.followcoursepair.selectservice.dist.label"
+					hintText="Distance in meters" hintTextKey="action.followcoursepair.selectservice.dist.hinttext" />
+			</selectService>
+		</action>
+		<action id="showFreeResources" type="readOnly" resultType="pathHighlightList">
+			<selectService id="objects" layerFilter="7"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="1" prompt="Select track section" filterCurrentSelection="true"
+				promptKey="action.showfreeresources.selectservice.prompt" helpKey="action.showfreeresources.selectservice.help">
+			</selectService>
+		</action>
+		<action id="showEdgeContents" type="readOnly" resultType="internal">
+			<selectService id="objects" layerFilter="7"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="50" prompt="Select track sections"
+				filterCurrentSelection="true"
+				promptKey="action.showedgecontents.selectservice.prompt" helpKey="action.showedgecontents.selectservice.help">
+			</selectService>
+		</action>
+		<action id="showNonTerminatedPath" type="readOnly" resultType="pathHighlight">
+			<selectService id="objects" layerFilter="11 22"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="1" prompt="Select a cablenode" filterCurrentSelection="true"
+				promptKey="action.shownonterminatedpath.selectservice.prompt"
+				helpKey="action.shownonterminatedpath.selectservice.help">
+			</selectService>
+		</action>
+		<action id="showReserves" type="readOnly" resultType="pathMarkup">
+			<selectService id="objects" layerFilter="11 22"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="100" prompt="Select cablenodes" filterCurrentSelection="true"
+				promptKey="action.showreserves.selectservice.prompt" helpKey="action.showreserves.selectservice.help">
+			</selectService>
+		</action>
+		<action id="removeMarkup" type="readOnly" resultType="internal">
+			<selectService id="objects" layerFilter="markup"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				prompt="Select postion pins" filterCurrentSelection="true"
+				promptKey="action.removemarkup.selectservice.prompt" helpKey="action.removemarkup.selectservice.help">
+			</selectService>
+		</action>
+		<action id="showMapFromCoordinates" type="readOnly" resultType="internal">
+			<textInputService id="coordinates" prompt="Enter coordinates"
+				promptKey="action.showmapfromcoordinates.textinputservice.prompt"
+				helpKey="action.showmapfromcoordinates.textinputservice.help">
+				<textInput id="coordX" mandatory="true" fieldType="number"
+					label="Coord X/Lat" labelKey="action.showmapfromcoordinates.coordX.label" />
+				<textInput id="coordY" mandatory="true" fieldType="number"
+					label="Coord Y/Lon" labelKey="action.showmapfromcoordinates.coordY.label" />
+			</textInputService>
+		</action>
+		<action id="createAddressIndicators" scope="global"
+			primaryView="MAPVIEW">
+			<textInputService id="addressesAndServingFlexPoint"
+				initialState="off" prompt="Select addresses and serving flexibility point"
+				promptKey="action.createAddressIndicators.selectservice.prompt"
+				helpKey="action.createAddressIndicators.selectservice.help">
+				<domainObjectList id="addressList" mandatory="true"
+					row="1" repeating="false" classFilter="309" displayHeight="8"
+					label="Addresses"
+					labelKey="action.createAddressIndicators.domainObjectList.addressList.label" />
+				<textInput id="servingFlexPoint" mandatory="true" row="2"
+					repeating="false" fieldType="DomainObject" classFilter="11"
+					lookupFunction="nameQuery?name=:servingFlexPoint?classId=11" label="Serving Flexibility Point"
+					labelKey="action.createAddressIndicators.servingFlexPoint.label" />
+				<textInput id="servingRefPoint" row="2" repeating="false"
+					fieldType="DomainObject" classFilter="1 22"
+					lookupFunction="nameQuery?name=:servingRefPoint?classId=22" label="Serving Reference Point"
+					labelKey="action.createAddressIndicators.servingRefPoint.label"
+					hintText="Select a Splice Junction (searchable) or a Duct Node"
+					hintTextKey="action.createAddressIndicators.servingRefPoint.hinttext" />
+				/>
+				<textInput id="priority" row="3" repeating="false"
+					fieldType="number" label="Priority"
+					labelKey="action.createAddressIndicators.priority.label" />
+				<textInput id="type" row="3" repeating="false" fieldType="LookupField"
+					lookupFunction="function?function=getLookupValues?classId=191?attributeName=IND_TYPE?returnType=LookupField"
+					label="Network Type" labelKey="action.createAddressIndicators.type.label" />
+			</textInputService>
+		</action>
+		<action id="defineTrackConnectivityTemplate">
+			<selectService id="path" layerFilter="7"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="1" prompt="Select track to define template from"
+				promptKey="action.defineTrackConnectivityTemplate.selectService.prompt"
+				helpKey="action.defineTrackConnectivityTemplate.selectService.help">
+				<eventHandlers>
+					<eventHandler event="valueCommit" operation="callFunction"
+						target="templateXml" />
+					<eventHandler event="valueIncomplete" operation="setValue"
+						arg="null" target="templateXml" />
+				</eventHandlers>
+				<textInput id="templateName" mandatory="true" label="Template name"
+					displayLength="2" row="1" repeating="false"
+					labelKey="action.defineConnectivityTemplate.selectService.templateName.label"
+					hintText="Specify the name for the new template"
+					hintTextKey="action.defineConnectivityTemplate.selectService.templateName.hinttext">
+				</textInput>
+				<XMLGraphList id="templateXml" mandatory="true" row="2"
+					repeating="false" displayLength="2" label="Template content"
+					showToggles="true" autoCheckLimit="1000"
+					valueFunction="function?bean=Util.getCrossSectionStructure?contextService=mapService?selConnectivityObjects=:path?presRule=2?returnType=String" />
+			</selectService>
+		</action>
+		<action id="defineDuctConnectivityTemplate">
+			<selectService id="path" layerFilter="3"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="1" prompt="Select duct to define template from"
+				promptKey="action.defineDuctConnectivityTemplate.selectService.prompt"
+				helpKey="action.defineDuctConnectivityTemplate.selectService.help">
+				<eventHandlers>
+					<eventHandler event="valueCommit" operation="callFunction"
+						target="templateXml" />
+					<eventHandler event="valueIncomplete" operation="setValue"
+						arg="null" target="templateXml" />
+				</eventHandlers>
+				<textInput id="templateName" mandatory="true" label="Template name"
+					displayLength="2" row="1" repeating="false"
+					labelKey="action.defineDuctConnectivityTemplate.selectService.templateName.label"
+					hintText="Specify the name for the new template"
+					hintTextKey="action.defineDuctConnectivityTemplate.selectService.templateName.hinttext">
+				</textInput>
+				<XMLGraphList id="templateXml" mandatory="true" row="2"
+					repeating="false" displayLength="2" label="Template content"
+					showToggles="true" autoCheckLimit="1000"
+					valueFunction="function?bean=Util.getCrossSectionStructure?contextService=mapService?selConnectivityObjects=:path?presRule=2?returnType=String" />
+			</selectService>
+		</action>
+		<action id="definePipeConnectivityTemplate">
+			<selectService id="path" layerFilter="29"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				prompt="Select one or more pipes to define template from" promptKey="action.definePipeConnectivityTemplate.selectService.prompt"
+				helpKey="action.definePipeConnectivityTemplate.selectService.help">
+				<eventHandlers>
+					<eventHandler event="valueCommit" operation="callFunction"
+						target="templateXml" />
+					<eventHandler event="valueIncomplete" operation="setValue"
+						arg="null" target="templateXml" />
+				</eventHandlers>
+				<textInput id="templateName" mandatory="true" label="Template name"
+					displayLength="2" row="1" repeating="false"
+					labelKey="action.definePipeConnectivityTemplate.selectService.templateName.label"
+					hintText="Specify the name for the new template"
+					hintTextKey="action.definePipeConnectivityTemplate.selectService.templateName.hinttext">
+				</textInput>
+				<XMLGraphList id="templateXml" mandatory="true" row="2"
+					repeating="false" displayLength="2" label="Template content"
+					showToggles="true" autoCheckLimit="1000"
+					valueFunction="function?bean=Util.getCrossSectionStructure?contextService=mapService?selConnectivityObjects=:path?presRule=2?returnType=String" />
+			</selectService>
+		</action>
+		<action id="defineCableConnectivityTemplate">
+			<selectService id="path" layerFilter="27"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				prompt="Select one or more cables to define template from"
+				promptKey="action.defineCableConnectivityTemplate.selectService.prompt"
+				helpKey="action.definePipeConnectivityTemplate.selectService.help">
+				<eventHandlers>
+					<eventHandler event="valueCommit" operation="callFunction"
+						target="templateXml" />
+					<eventHandler event="valueIncomplete" operation="setValue"
+						arg="null" target="templateXml" />
+				</eventHandlers>
+				<textInput id="templateName" mandatory="true" label="Template name"
+					displayLength="2" row="1" repeating="false"
+					labelKey="action.defineCableConnectivityTemplate.textInputService.templateName.label"
+					hintText="Specify the name for the new template"
+					hintTextKey="action.defineCableConnectivityTemplate.selectService.templateName.hinttext">
+				</textInput>
+				<XMLGraphList id="templateXml" mandatory="true" row="2"
+					repeating="false" displayLength="2" label="Template content"
+					showToggles="true" autoCheckLimit="1000"
+					valueFunction="function?bean=Util.getCrossSectionStructure?contextService=mapService?selConnectivityObjects=:path?presRule=2?returnType=String" />
+			</selectService>
+		</action>
+		<action id="digNewTrackFromTemplate" repeating="true">
+			<polyLineConstructionService id="path"
+				startLayerFilter="4 6" endLayerFilter="6"
+				prompt="Digitize track section path" promptKey="action.buildTrackFromTemplate.prompt"
+				helpKey="action.buildTrackFromTemplate.help">
+				<textInput id="template" mandatory="true" label="Template Name"
+					row="1" displayLength="2" repeating="false" autoCommit="true"
+					labelKey="action.buildTrackFromTemplate.selectservice.name.label"
+					hintText="Template name" hintTextKey="action.buildTrackFromTemplate.name.hinttext"
+					fieldType="DomainObject"
+					lookupFunction="function?function=getTemplates?classId=7?name=:template">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="templateXml" />
+					</eventHandlers>
+				</textInput>
+				<XMLGraphList id="templateXml" mandatory="true" row="2"
+					repeating="false" displayLength="3"
+					label="Enter required names for template content"
+					valueFunction="function?bean=Util.getTemplateStructure?contextService=mapService?connectivityTemplate=:template?presRule=2?returnType=String"
+					labelKey="action.buildTrackFromTemplate.GraphList.label" />
+			</polyLineConstructionService>
+		</action>
+		<action id="digNewDuctFromTemplate" repeating="true">
+			<selectService id="path" layerFilter="7"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				prompt="Select path of track section(s)for new duct" promptKey="action.buildDuctFromTemplate.prompt"
+				helpKey="action.buildDuctFromTemplate.selectservice.help">
+				<textInput id="template" mandatory="true" label="Template Name"
+					row="1" displayLength="2" repeating="false" autoCommit="true"
+					labelKey="action.buildDuctFromTemplate.selectservice.name.label"
+					hintText="Template name" hintTextKey="action.buildDuctFromTemplate.selectservice.name.hinttext"
+					fieldType="DomainObject" lookupFunction="function?function=getTemplates?classId=3?name=:template">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="templateXml" />
+					</eventHandlers>
+				</textInput>
+				<XMLGraphList id="templateXml" mandatory="true" row="2"
+					repeating="false" displayLength="3"
+					label="Enter required names for template content"
+					valueFunction="function?bean=Util.getTemplateStructure?contextService=mapService?connectivityTemplate=:template?presRule=2?returnType=String"
+					labelKey="action.buildDuctFromTemplate.GraphList.label" />
+			</selectService>
+		</action>
+		<action id="digNewPipeFromTemplate" repeating="true">
+			<selectService id="path" layerFilter="7 3 29"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				prompt="Select path of track(s), ducts(s) and/or pipes(s) for the new pipe"
+				promptKey="action.buildPipeFromTemplate.textInputService.prompt"
+				helpKey="action.buildPipeFromTemplate.textInputService.help">
+				<textInput id="template" mandatory="true" label="Template Name"
+					row="2" displayLength="2" repeating="false" autoCommit="true"
+					labelKey="action.buildPipeFromTemplate.textInputService.name.label"
+					hintText="Template name"
+					hintTextKey="action.buildPipeFromTemplate.textInputService.name.hinttext"
+					fieldType="DomainObject"
+					lookupFunction="function?function=getTemplates?classId=29?name=:template">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="templateXml" />
+					</eventHandlers>
+				</textInput>
+				<XMLGraphList id="templateXml" mandatory="true" row="3"
+					repeating="false" displayLength="3"
+					label="Enter required names for template content"
+					valueFunction="function?bean=Util.getTemplateStructure?contextService=mapService?connectivityTemplate=:template?presRule=2?returnType=String"
+					labelKey="action.buildFlexPointFromTemplate.domainObjectList.node1.label" />
+			</selectService>
+		</action>
+		<action id="digNewCableFromTemplate" repeating="true">
+			<selectService id="path" layerFilter="7 29"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				prompt="Select path of track(s) and/or pipe(s)" promptKey="action.digNewCableFromTemplate.textInputService.prompt"
+				helpKey="action.digNewCableFromTemplate.textInputService.help">
+				<textInput id="template" mandatory="true" label="Template Name"
+					row="2" displayLength="2" repeating="false" autoCommit="true"
+					labelKey="action.digNewCableFromTemplate.textInputService.name.label"
+					hintText="Template name"
+					hintTextKey="action.digNewCableFromTemplate.textInputService.name.hinttext"
+					fieldType="DomainObject"
+					lookupFunction="function?function=getTemplates?classId=27?name=:template">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="templateXml" />
+					</eventHandlers>
+				</textInput>
+				<XMLGraphList id="templateXml" mandatory="true" row="3"
+					repeating="false" displayLength="3"
+					label="Enter required names for template content"
+					valueFunction="function?bean=Util.getTemplateStructure?contextService=mapService?connectivityTemplate=:template?presRule=2?returnType=String"
+					labelKey="action.buildFlexPointFromTemplate.domainObjectList.node1.label" />
+			</selectService>
+		</action>
+
+	</actions>
+
+	<actions view="TOPOLOGYVIEW">
+		<defaultActions>
+			<defaultTraces>
+				<trace id="diagramLayout" layerFilter="121" startObjectParam="startObj"
+					resultType="graph"></trace>
+				<trace id="planLayout" layerFilter="13" startObjectParam="startObj"
+					resultType="graph"></trace>
+				<trace id="traceCableNetwork" layerFilter="11 22 27 121"
+					startObjectParam="startObj" startObjectEdgesParam="edgeFilter"
+					resultType="graph">
+					<params>
+						<param name="edgeExcludeFilter" value="1" />
+						<!--param name="distance" value="10000"/ -->
+					</params>
+				</trace>
+				<trace id="traceDuctNetwork" layerFilter="1 31"
+					startObjectParam="startObj" startObjectEdgesParam="edgeFilter"
+					resultType="graph">
+					<params>
+						<param name="edgeExcludeFilter" value="1" />
+						<param name="networkLayer" value="3" reuseCurrent="true" />
+					</params>
+				</trace>
+				<trace id="traceLinkNetwork" layerFilter="11"
+					startObjectParam="startNode" startObjectEdgesParam="edgeFilter"
+					resultType="graph">
+					<params>
+						<param name="edgeExcludeFilter" value="1" />
+						<param name="maxHops" value="1" />
+					</params>
+				</trace>
+				<trace id="traceLogicalNetwork" layerFilter="11 135"
+					startObjectParam="startNode" startObjectEdgesParam="edgeFilter"
+					resultType="graph">
+					<params>
+						<param name="edgeExcludeFilter" value="1" />
+						<param name="dateFrom" value="" reuseCurrent="true" />
+						<param name="dateTo" value="" reuseCurrent="true" />
+						<param name="searchFreeConnection" value="0" reuseCurrent="true" />
+						<param name="fullAvailabilityCheck" value="0" reuseCurrent="true" />
+						<param name="allLevel" value="0" reuseCurrent="true" />
+					</params>
+				</trace>
+				<trace id="traceCATVNetwork" layerFilter="217 231 244 225  246 240 242 238 224 221 223"
+					startObjectParam="startObj" startObjectEdgesParam="edgeFilter"
+					resultType="graph">
+					<params>
+						<param name="edgeExcludeFilter" value="1" />
+						<param name="fullAmplifierCascade" value="1" reuseCurrent="true" />
+						<param name="netLevelConstraint" value="" reuseCurrent="true" />
+					</params>
+				</trace>
+			</defaultTraces>
+
+			<drillDownTraces>
+				<trace id="mappedCables" layerFilter="206 145"
+					startObjectParam="startObject" expandFunctionId=""
+					description="Drill Down - Mapped cables" descriptionKey="">
+				</trace>
+				<trace id="getRouteMakeup" layerFilter="135" startObjectParam="trail"
+					expandFunctionId="" description="Drill Down - Trail Route"
+					descriptionKey="" rendererType="TrailRoute">
+				</trace>
+				<trace id="getRouteMakeupBackup" layerFilter="427"
+					startObjectParam="trail" expandFunctionId=""
+					description="Drill Down - Backup Trail Route" descriptionKey=""
+					rendererType="TrailRoute">
+				</trace>
+				<trace id="getRouteMakeupMulti" layerFilter="135"
+					startObjectParam="trail" expandFunctionId=""
+					description="Drill Down - Multilevel Trail Route" descriptionKey=""
+					rendererType="TrailRoute">
+				</trace>
+				<trace id="getPossibleCableLinks" layerFilter="144"
+					startObjectParam="trail" expandFunctionId=""
+					description="Drill Down - Possible cable links" descriptionKey=""
+					rendererType="TrailRoute">
+				</trace>
+			</drillDownTraces>
+
+			<drillUpTraces>
+				<trace id="trailsInCable" layerFilter="27" startObjectParam="startObject"
+					description="Drill Up - Trails in Cable" descriptionKey="">
+				</trace>
+				<trace id="trailsInLinkSection" layerFilter="425"
+					startObjectParam="startObject" description="Drill Up - Trails in Link Section"
+					descriptionKey="">
+				</trace>
+				<trace id="trailsInTrail"
+					layerFilter="145 206 298 390 250 393 343 345 346 347 490 460 200 332 260 256 463 526 531 435 504 438 464 338 258 426 364 365 495 190 306"
+					startObjectParam="startObject" description="Drill Up - Trails in Trail"
+					descriptionKey="">
+				</trace>
+			</drillUpTraces>
+		</defaultActions>
+
+		<action id="traceCableNetwork" type="readOnly" resultType="graph">
+			<textInputService id="cableTraceParams" prompt="Enter search parameters"
+				promptKey="action.traceCableNetwork.cableTraceParams.prompt">
+				<textInput id="startType" row="1" mandatory="true" value="11"
+					label="Start type" labelKey="action.traceCableNetwork.textInputService.startType.label">
+					<values>
+						<value label="Flexibility Point" value="11"
+							labelKey="action.traceCableNetwork.textInputService.11.label" />
+						<value label="Cable Section" value="27"
+							labelKey="action.traceCableNetwork.textInputService.27.label" />
+						<value label="Splice Junction" value="22"
+							labelKey="action.traceCableNetwork.textInputService.22.label" />
+					</values>
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="setValue"
+							arg="" target="startObj" />
+						<eventHandler event="valueCommit" operation="setValue"
+							arg="" target="edgeIncludeFilter" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="startObj" row="1" mandatory="true" label="Start object"
+					repeating="false" lookupFunction="nameQuery?name=:startObj?classId=:startType"
+					labelKey="action.traceCableNetwork.textInputService.startObj.label"
+					classFilter=":startType">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="edgeFilter" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="distance" row="2" mandatory="false" label="Distance"
+					fieldType="number"
+					labelKey="action.traceCableNetwork.textInputService.distance.label" />
+				<textInput id="edgeExcludeFilter" row="2" mandatory="false"
+					label="Exclude selected" fieldType="boolean" />
+				<domainObjectList id="edgeFilter" mandatory="false"
+					label="Follow cables" valueFunction="relation?relation=NEIGHBORS?object=:startObj?filter=27" />
+			</textInputService>
+		</action>
+		<action id="traceCATVNetwork" type="readOnly" resultType="graph">
+			<textInputService id="catvTraceParams" prompt="Enter search parameters"
+				promptKey="action.traceCATVNetwork.catvTraceParams.prompt">
+				<textInput id="startType" row="1" mandatory="true" value="217"
+					label="Start type">
+					<values>
+						<value label="Amplifier" value="217"
+							labelKey="action.traceCATVNetwork.textInputService.217.label" />
+						<value label="Branching Filter" value="231"
+							labelKey="action.traceCATVNetwork.textInputService.231.label" />
+						<value label="Cable Simulator" value="244"
+							labelKey="action.traceCATVNetwork.textInputService.244.label" />
+						<value label="Filter" value="225"
+							labelKey="action.traceCATVNetwork.textInputService.225.label" />
+						<value label="Optical Amplifier" value="246"
+							labelKey="action.traceCATVNetwork.textInputService.246.label" />
+						<value label="Optical Receiver" value="240"
+							labelKey="action.traceCATVNetwork.textInputService.240.label" />
+						<value label="Optical Splitter" value="242"
+							labelKey="action.traceCATVNetwork.textInputService.242.label" />
+						<value label="Optical Transmitter" value="238"
+							labelKey="action.traceCATVNetwork.textInputService.238.label" />
+						<value label="Power Supply" value="224"
+							labelKey="action.traceCATVNetwork.textInputService.224.label" />
+						<value label="Signal Splitter" value="221"
+							labelKey="action.traceCATVNetwork.textInputService.221.label" />
+						<value label="Subscriber Equipment" value="223"
+							labelKey="action.traceCATVNetwork.textInputService.223.label" />
+					</values>
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="setValue"
+							arg="" target="startNode" />
+						<eventHandler event="valueCommit" operation="setValue"
+							arg="" target="edgeIncludeFilter" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="startObj" row="1" mandatory="true" label="Start object"
+					repeating="false" lookupFunction="nameQuery?name=:startObj?classId=:startType"
+					classFilter=":startType"
+					labelKey="action.traceCATVNetwork.textInputService.startObj.label">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="edgeFilter" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="fullAmplifierCascade" row="2" mandatory="false"
+					value="1" label="Full Amplifier Cascade" fieldType="boolean"
+					labelKey="action.traceCATVNetwork.textInputService.fullAmplifierCascade.label" />
+				<textInput id="netLevelConstraint" row="2" mandatory="false"
+					value="" label="Net Level Constraint"
+					labelKey="action.traceCATVNetwork.textInputService.netLevelConstraint.label">
+					<values>
+						<value label="D1" value="D1"
+							labelKey="action.traceCATVNetwork.textInputService.D1.label" />
+						<value label="D2" value="D2"
+							labelKey="action.traceCATVNetwork.textInputService.D2.label" />
+						<value label="D3" value="D3"
+							labelKey="action.traceCATVNetwork.textInputService.D3.label" />
+					</values>
+				</textInput>
+			</textInputService>
+		</action>
+		<action id="traceDuctNetwork" type="readOnly" resultType="graph">
+			<textInputService id="ductTraceParams" prompt="Enter search parameters"
+				promptKey="action.traceDuctNetwork.ductTraceParams.prompt">
+				<textInput id="networkLayer" row="1" mandatory="true"
+					value="3" label="Network layer"
+					labelKey="action.traceDuctNetwork.textInputService.networkLayer.label">
+					<values>
+						<value label="Follow Pipe groups" value="31"
+							labelKey="action.traceDuctNetwork.textInputService.31.label" />
+						<value label="Follow Duct sections" value="3"
+							labelKey="action.traceDuctNetwork.textInputService.3.label" />
+					</values>
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="edgeFilter" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="startType" row="2" mandatory="true" value="1"
+					label="Start type" labelKey="action.traceDuctNetwork.textInputService.startType.label">
+					<values>
+						<value label="Duct Node" value="1"
+							labelKey="action.traceDuctNetwork.textInputService.1.label" />
+						<value label="Pipe group" value="31"
+							labelKey="action.traceDuctNetwork.textInputService.31.label" />
+					</values>
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="setValue"
+							arg="" target="startNode" />
+						<eventHandler event="valueCommit" operation="setValue"
+							arg="" target="edgeIncludeFilter" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="startObj" row="2" mandatory="true" label="Start object"
+					repeating="false" lookupFunction="nameQuery?name=:startObj?classId=:startType"
+					classFilter=":startType"
+					labelKey="action.traceDuctNetwork.textInputService.startObj.label">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="edgeFilter" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="distance" row="3" mandatory="false" label="Distance"
+					fieldType="number" labelKey="action.traceDuctNetwork.textInputService.distance.label" />
+				<textInput id="edgeExcludeFilter" row="3" mandatory="false"
+					label="Exclude selected" fieldType="boolean"
+					labelKey="action.traceDuctNetwork.textInputService.excludeSelected.label" />
+				<!--domainObjectList id="edgeFilter" mandatory="false" label="Edges" 
+					valueFunction="relation?relation=NEIGHBORS?filter=:networkLayer"/ -->
+				<domainObjectList id="edgeFilter" mandatory="false"
+					label="Edges"
+					valueFunction="relation?relation=NEIGHBORS?filter=:networkLayer?object=:startObj"
+					labelKey="action.traceDuctNetwork.textInputService.edgeFilter.label" />
+			</textInputService>
+		</action>
+		<action id="traceLinkNetwork" type="readOnly" resultType="graph">
+			<textInputService id="linkTraceParams" prompt="Enter search parameters"
+				promptKey="action.traceLinkNetwork.linkTraceParams.prompt">
+				<textInput id="startNode" mandatory="true" row="1"
+					repeating="false" classFilter="11" label="Start Flexibility Point"
+					lookupFunction="nameQuery?name=:startNode?classId=11"
+					labelKey="action.traceLinkNetwork.textInputService.startNode.label">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="edgeFilter" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="endNode" mandatory="false" row="1"
+					repeating="false" classFilter="11" label="End Flexibility Point"
+					lookupFunction="nameQuery?name=:endNode?classId=11"
+					labelKey="action.traceLinkNetwork.textInputService.endNode.label" />
+				<textInput id="maxHops" row="2" mandatory="false" value="5"
+					label="Max number of hops" labelKey="action.traceLinkNetwork.textInputService.maxHops.label" />
+				<!--textInput id="edgeExcludeFilter" row="2" mandatory="false" label="Exclude 
+					selected" fieldType="boolean"/ -->
+				<domainObjectList id="edgeFilter" mandatory="false"
+					label="Filter trailclasses" valueFunction="function?function=getAllTrailList?returnType=DomainObject"
+					labelKey="action.traceLinkNetwork.textInputService.edgeFilter.label" />
+			</textInputService>
+		</action>
+
+		<action id="traceLogicalNetwork" type="readOnly" resultType="graph">
+			<textInputService id="logicalTraceParams" prompt="Enter search parameters"
+				promptKey="action.traceLogicalNetwork.logicalTraceParams.prompt">
+				<textInput id="startNode" mandatory="true" row="1"
+					repeating="false" classFilter="11" label="Start Flexibility Point"
+					lookupFunction="nameQuery?name=:startNode?classId=11"
+					labelKey="action.traceLogicalNetwork.textInputService.startNode.label">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="edgeFilter" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="endNode" mandatory="false" row="1"
+					repeating="false" classFilter="11" label="End Flexibility Point"
+					lookupFunction="nameQuery?name=:endNode?classId=11"
+					labelKey="action.traceLogicalNetwork.textInputService.endNode.label" />
+				<textInput id="dateFrom" mandatory="false" row="2" label="Date From"
+					fieldType="date"
+					labelKey="action.traceLogicalNetwork.textInputService.dateFrom.label" />
+				<textInput id="dateTo" mandatory="false" row="2" label="Date To"
+					fieldType="date"
+					labelKey="action.traceLogicalNetwork.textInputService.dateTo.label" />
+				<textInput id="searchFreeConnection" mandatory="false"
+					row="3" label="Search For Free Connections" fieldType="boolean"
+					labelKey="action.traceLogicalNetwork.textInputService.searchFreeConnection.label" />
+				<textInput id="allLevel" mandatory="false" value="0" row="3"
+					label="All level" fieldType="boolean"
+					labelKey="action.traceLogicalNetwork.textInputService.allLevel.label" />
+				<textInput id="fullAvailabilityCheck" mandatory="false"
+					row="4" label="Full Availability Check" fieldType="boolean"
+					labelKey="action.traceLogicalNetwork.textInputService.fullAvailabilityCheck.label" />
+				<textInput id="numberOfConnections" mandatory="false" row="4"
+					label="Number of connections"
+					labelKey="action.traceLogicalNetwork.textInputService.numberOfConnections.label" />
+				<domainObjectList id="edgeFilter" mandatory="false"
+					label="Follow Trail Type" valueFunction="function?function=getAllTrailList?returnType=DomainObject"
+					labelKey="action.traceLogicalNetwork.textInputService.edgeFilter.label" />
+				<!--option id="edgeExcludeFilter" value=""/> <option id="traceType" value="FlexPoint"/ -->
+			</textInputService>
+		</action>
+		<action id="constructLogical" workOrderMode="true"
+			workOrderFieldId="planningProject" scope="global" primaryView="TOPOLOGYVIEW">
+			<textInputService id="constructLogicalParams"
+				prompt="Select Flexibility points, Cable sections or Terminations"
+				promptKey="action.constructLogical.textInputService.prompt" helpKey="action.constructLogical.textInputService.help">
+				<domainObjectList id="objects" mandatory="true"
+					row="1" repeating="false" classFilter="11 27 10" displayHeight="8"
+					autoCheckLimit="200"
+					label="Flexibility points, Cable sections and Terminations"
+					labelKey="action.constructLogical.textInputService.objects.label" />
+				<textInput id="planningProject" mandatory="true" row="2"
+					label="Planning project" valueFunction="function?bean=Util.getCurrPlanProject?returnType=String"
+					labelKey="action.constructLogical.textInputService.planningProject.label"
+					hintText=""
+					hintTextKey="action.constructLogical.textInputService.planningProject.hinttext">
+				</textInput>
+				<textInput id="terminatedOnly" mandatory="false"
+					label="Terminated cables only?" fieldType="boolean" row="2"
+					labelKey="action.constructLogical.textInputService.terminatedOnly.label"
+					hintText="Create trails for terminated cables only?"
+					hintTextKey="action.constructLogical.textInputService.terminatedOnly.hinttext">
+				</textInput>
+			</textInputService>
+		</action>
+		<action id="mapToPhysical">
+			<selectService id="cableLink" layerFilter="TopologyCableLink 144"
+				pathMode="true" allowCoordSelection="false" allowObjectSelection="true"
+				minSelect="1" maxSelect="2"
+				prompt="Select trail and physical cable link and enter start pair."
+				promptKey="action.mapToPhysical.selectservice.prompt" helpKey="action.constructLogical.selectservice.help">
+				<eventHandlers>
+					<eventHandler event="valueCommit" operation="callFunction"
+						target="trail" />
+				</eventHandlers>
+				<textInput id="trail" mandatory="true" row="1"
+					displayLength="2" classFilter="144" repeating="false" label="Trail to map"
+					fieldType="DomainObject"
+					valueFunction="function?function=getTrailObjInSelection?selection=:cableLink?returnType=DomainObject"
+					labelKey="action.mapToPhysical.selectservice.trail.label" hintText=""
+					hintTextKey="action.mapToPhysical.selectservice.trail.hinttext">
+				</textInput>
+				<textInput id="startPairFrom" mandatory="true" row="2"
+					repeating="false" fieldType="Integer" label="Start pair in cable link range"
+					labelKey="action.mapToPhysical.selectservice.startPairFrom.label"
+					lookupFunction="function?function=listPossibleStartPairs?selection=:cableLink?trail=:trail?returnType=Integer"
+					hintText=""
+					hintTextKey="action.mapToPhysical.selectservice.startPairFrom.hinttext">
+				</textInput>
+			</selectService>
+		</action>
+		<action id="deleteMapping" scope="global" primaryView="TOPOLOGYVIEW">
+			<textInputService id="deleteMappingParams" prompt="Select trail to be unmapped"
+				promptKey="action.deleteMapping.textInputService.prompt" helpKey="action.deleteMapping.textInputService.help">
+				<textInput id="trail" mandatory="true" row="1"
+					displayLength="2" classFilter="144" label="Trail to unmap"
+					fieldType="DomainObject" labelKey="action.deleteMapping.textInputService.trail.label"
+					hintText="" hintTextKey="action.deleteMapping.textInputService.trail.hinttext">
+				</textInput>
+			</textInputService>
+		</action>
+		<action id="splitTrailHorizontally" scope="global" primaryView="TOPOLOGYVIEW">
+			<textInputService id="splitTrailHorizontallyParams"
+				initialState="off" prompt="Select trail to split"
+				promptKey="action.splitTrailHorizontally.textInputService.prompt"
+				helpKey="action.splitTrailHorizontally.textInputService.help">
+				<textInput id="trail" mandatory="true" row="1"
+					displayLength="2" classFilter="144" label="Trail to split"
+					fieldType="DomainObject"
+					labelKey="action.splitTrailHorizontally.textInputService.trail.label"
+					hintText=""
+					hintTextKey="action.splitTrailHorizontally.textInputService.trail.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="numberOfConns" />
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="startNumber" />
+						<eventHandler event="valueCommit" operation="setState"
+							arg="off" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="numberOfConns" mandatory="false"
+					label="Number of connections" row="2" disabledStates="off"
+					valueFunction="function?function=getNumberOfConns?contextObj=:object?contextTrl=:trail?returnType=Integer"
+					labelKey="action.splitTrailHorizontally.textInputService.numberOfConns.label"
+					hintText="Number of connections in this trail"
+					hintTextKey="action.splitTrailHorizontally.textInputService.numberOfConns.hinttext">
+				</textInput>
+				<textInput id="startNumber" mandatory="false"
+					label="Connection start number" row="2" column="2" disabledStates="off"
+					valueFunction="function?function=getStartNumber?contextObj=:object?contextTrl=:trail?returnType=Integer"
+					labelKey="action.splitTrailHorizontally.textInputService.startNumber.label"
+					hintText="Start number of connections in the trail"
+					hintTextKey="action.splitTrailHorizontally.textInputService.startNumber.hinttext">
+				</textInput>
+				<textInput id="splitConnNmbs" mandatory="true" repeating="false"
+					row="3" label="Split on connection number(s)"
+					labelKey="action.splitTrailHorizontally.textInputService.connNmbs.label"
+					hintText="Where to split the trail"
+					hintTextKey="action.splitTrailHorizontally.textInputService.connNmbs.hinttext">
+				</textInput>
+				<textInput id="autoPropagation" mandatory="false"
+					label="Attempt auto. propagation" fieldType="boolean" row="4"
+					column="1" value="1"
+					labelKey="action.splitTrailHorizontally.textInputService.autoPropagation.label"
+					groupId="Termination options"
+					groupIdKey="action.splitTrailHorizontally.textInputService.group.termOptions"
+					hintText="Attempt propagation of changes on logical network to the physical network"
+					hintTextKey="action.splitTrailHorizontally.textInputService.autoPropagation.hinttext">
+				</textInput>
+				<textInput id="allowPhysLogMappingLoss" mandatory="false"
+					label="Allow loss of mapping" fieldType="boolean" row="4" column="2"
+					labelKey="action.splitTrailHorizontally.textInputService.allowPhysLogMappingLoss.label"
+					groupId="Termination options"
+					groupIdKey="action.splitTrailHorizontally.textInputService.group.termOptions"
+					hintText="Allow loss of physical logical mapping"
+					hintTextKey="action.splitTrailHorizontally.textInputService.allowPhysLogMappingLoss.hinttext">
+				</textInput>
+			</textInputService>
+		</action>
+		<!--action id="digNewSpliceTopology" repeating="true"> <selectService id="cables" 
+			layerFilter="27 11 22" allowCoordSelection="false" allowObjectSelection="true" 
+			minSelect="2" maxSelect="3" prompt="Select cables, cablenode and then enter 
+			pair range." promptKey="action.digNewSpliceTopology.selectservice.prompt" 
+			helpKey="action.digNewSpliceTopology.selectservice.help"> <eventHandlers> 
+			<eventHandler event="valueCommit" operation="callFunction" target="fromCable" 
+			/> <eventHandler event="valueCommit" operation="callFunction" target="toCable" 
+			/> <eventHandler event="valueCommit" operation="callFunction" target="cableNode" 
+			/> </eventHandlers> <textInput id="fromCable" mandatory="true" row="1" label="From 
+			cable" repeating="false" classFilter="27" fieldType="DomainObject" valueFunction="function?function=getCableInSelection?cables=:cables?index=0?returnType=DomainObject" 
+			labelKey="action.digNewSpliceTopology.selectservice.fromCable.label" hintText="" 
+			hintTextKey="action.digNewSpliceTopology.selectservice.fromCable.hinttext" 
+			> <eventHandlers> <eventHandler event="valueCommit" operation="callFunction" 
+			target="cableNode" /> </eventHandlers> </textInput> <textInput id="fromPair" 
+			mandatory="true" label="From pair" row="2" fieldType="Integer" repeating="false" 
+			labelKey="action.digNewSpliceTopology.selectservice.fromPair.label" lookupFunction="function?function=getFreeRangeInCable?node=:cableNode?cable=:fromCable?returnType=Integer" 
+			hintText="First pair in from-cable to splice" hintTextKey="action.digNewSpliceTopology.selectservice.fromPair.hinttext" 
+			> <eventHandlers> <eventHandler event="valueCommit" operation="callFunction" 
+			target="toPairTo" /> </eventHandlers> </textInput> <textInput id="toPair" 
+			mandatory="true" label="To pair" row="2" column="2" fieldType="Integer" repeating="false" 
+			labelKey="action.digNewSpliceTopology.selectservice.toPair.label" lookupFunction="function?function=getFreeRangeInCable?node=:cableNode?cable=:fromCable?start=:fromPair?returnType=Integer" 
+			hintText="Last pair in from-cable to splice" hintTextKey="action.digNewSpliceTopology.selectservice.toPair.hinttext" 
+			> <eventHandlers> <eventHandler event="valueCommit" operation="callFunction" 
+			target="toPairTo" /> </eventHandlers> </textInput> <textInput id="toCable" 
+			mandatory="true" row="3" label="To cable" repeating="false" classFilter="27" 
+			fieldType="DomainObject" valueFunction="function?function=getCableInSelection?cables=:cables?index=1?returnType=DomainObject" 
+			labelKey="action.digNewSpliceTopology.selectservice.toCable.label" hintText="" 
+			hintTextKey="action.digNewSpliceTopology.selectservice.toCable.hinttext" 
+			> <eventHandlers> <eventHandler event="valueCommit" operation="callFunction" 
+			target="cableNode" /> </eventHandlers> </textInput> <textInput id="fromPairTo" 
+			mandatory="true" label="From pair" row="4" fieldType="Integer" repeating="false" 
+			labelKey="action.digNewSpliceTopology.selectservice.fromPairTo.label" lookupFunction="function?function=getFreeRangeInCable?node=:cableNode?cable=:toCable?returnType=Integer" 
+			hintText="First pair in to-cable to splice" hintTextKey="action.digNewSpliceTopology.selectservice.fromPairTo.hinttext" 
+			> <eventHandlers> <eventHandler event="valueCommit" operation="callFunction" 
+			target="toPairTo" /> </eventHandlers> </textInput> <textInput id="toPairTo" 
+			mandatory="true" label="To pair" row="4" column="2" fieldType="Integer" repeating="false" 
+			labelKey="action.digNewSpliceTopology.selectservice.toPairTo.label" valueFunction="function?function=getFreeRangeInCable?node=:cableNode?cable=:toCable?start=:fromPairTo?from=:fromPair?to=:toPair?returnType=Integer" 
+			hintText="Last pair in to-cable to splice" hintTextKey="action.digNewSpliceTopology.selectservice.toPairTo.hinttext" 
+			> </textInput> <textInput id="cableNode" mandatory="true" row="5" label="Cable 
+			node" repeating="false" fieldType="DomainObject" classFilter="22 11" valueFunction="function?function=getCommonCableNode?selection=:cables?cable1=:fromCable?cable2=:toCable?returnType=DomainObject?" 
+			labelKey="action.digNewSpliceTopology.selectservice.cableNode.label" hintText="" 
+			hintTextKey="action.digNewSpliceTopology.selectservice.cableNode.hinttext" 
+			> </textInput> </selectService> </action -->
+		<!-- action id="digNewCableEndTopology" repeating="true"> <selectService 
+			id="cables" layerFilter="11 22 27" allowCoordSelection="false" allowObjectSelection="true" 
+			minSelect="0" maxSelect="2" prompt="Select cable to end and cable node and 
+			then enter pair range." promptKey="action.digNewCableEndTopology.selectservice.prompt" 
+			helpKey="action.digNewCableEndTopology.selectservice.help"> <eventHandlers> 
+			<eventHandler event="valueCommit" operation="callFunction" target="cableNode" 
+			/> <eventHandler event="valueCommit" operation="callFunction" target="fromCable" 
+			/> </eventHandlers> <textInput id="cableNode" mandatory="true" row="1" label="Cable 
+			node" repeating="false" classFilter="11 22" fieldType="DomainObject" valueFunction="function?function=getNodeInSelection?cables=:cables?index=0?returnType=DomainObject" 
+			labelKey="action.digNewCableEndTopology.selectservice.cableNode.label" hintText="" 
+			hintTextKey="action.digNewCableEndTopology.selectservice.cableNode.hinttext" 
+			> </textInput> <textInput id="fromCable" mandatory="true" row="2" label="From 
+			cable" repeating="false" classFilter="27" fieldType="DomainObject" valueFunction="function?function=getCableInSelection?cables=:cables?index=0?returnType=DomainObject" 
+			labelKey="action.digNewCableEndTopology.selectservice.fromCable.label" hintText="" 
+			hintTextKey="action.digNewCableEndTopology.selectservice.fromCable.hinttext" 
+			> </textInput> <textInput id="fromPair" mandatory="true" label="From pair" 
+			row="3" fieldType="Integer" repeating="false" labelKey="action.digNewCableEndTopology.selectservice.fromPair.label" 
+			lookupFunction="function?function=getFreeRangeInCable?node=:cableNode?cable=:fromCable?returnType=Integer" 
+			hintText="First pair in from-cable to splice" hintTextKey="action.digNewCableEndTopology.selectservice.fromPair.hinttext" 
+			> </textInput> <textInput id="toPair" mandatory="true" label="To pair" row="3" 
+			column="2" fieldType="Integer" repeating="false" labelKey="action.digNewCableEndTopology.selectservice.toPair.label" 
+			lookupFunction="function?function=getFreeRangeInCable?node=:cableNode?cable=:fromCable?start=:fromPair?returnType=Integer" 
+			hintText="Last pair in from-cable to splice" hintTextKey="action.digNewCableEndTopology.selectservice.toPair.hinttext" 
+			> </textInput> </selectService> </action -->
+
+		<!--action id="followCoursePair" type="readOnly" resultType="graph"> <selectService 
+			id="node" layerFilter="11 22" allowCoordSelection="false" allowObjectSelection="true" 
+			minSelect="1" maxSelect="1" initialState="off" prompt="Select cablenode (FP/SP). 
+			Select cable in list and enter pair number and distance." promptKey="action.followcoursepair.selectservice.prompt" 
+			helpKey="action.followcoursepair.selectservice.help"> <eventHandlers> <eventHandler 
+			event="valueCommit" operation="callFunction" target="cableList" /> <eventHandler 
+			event="valueCommit" operation="setState" arg="on"/> </eventHandlers> <domainObjectList 
+			id="cableList" mandatory="true" row="1" groupId="Follow cable" groupIdKey="action.followcoursepair.selectservice.group.cables" 
+			valueFunction="function?function=getCablesConnectedToNode?selection=:node?returnType=DomainObject?" 
+			labelKey="action.followcoursepair.domainObjectList.cableList.label" /> <textInput 
+			id="pair" mandatory="true" label="Pair number" row="2" disabledStates="off" 
+			column="1" labelKey="action.followcoursepair.selectservice.pair.label" hintText="Cable 
+			pair" hintTextKey="action.followcoursepair.selectservice.pair.hinttext" /> 
+			<textInput id="dist" mandatory="true" label="Distance" fieldType="integer" 
+			row="2" disabledStates="off" column="2" labelKey="action.followcoursepair.selectservice.dist.label" 
+			hintText="Distance in meters" hintTextKey="action.followcoursepair.selectservice.dist.hinttext" 
+			/> </selectService> </action> <action id="showFreeResources" type="readOnly" 
+			resultType="pathHighlightList"> <selectService id="objects" layerFilter="7" 
+			allowCoordSelection="false" allowObjectSelection="true" minSelect="1" maxSelect="1" 
+			prompt="Select track section" filterCurrentSelection="true" promptKey="action.showfreeresources.selectservice.prompt" 
+			helpKey="action.showfreeresources.selectservice.help"> </selectService> </action> 
+			<action id="showEdgeContents" type="readOnly" resultType="internal"> <selectService 
+			id="objects" layerFilter="7" allowCoordSelection="false" allowObjectSelection="true" 
+			minSelect="1" maxSelect="50" prompt="Select track sections" filterCurrentSelection="true" 
+			promptKey="action.showedgecontents.selectservice.prompt" helpKey="action.showedgecontents.selectservice.help"> 
+			</selectService> </action> <action id="showNonTerminatedPath" type="readOnly" 
+			resultType="pathHighlight"> <selectService id="objects" layerFilter="11 22" 
+			allowCoordSelection="false" allowObjectSelection="true" minSelect="1" maxSelect="1" 
+			prompt="Select a cablenode" filterCurrentSelection="true" promptKey="action.shownonterminatedpath.selectservice.prompt" 
+			helpKey="action.shownonterminatedpath.selectservice.help"> </selectService> 
+			</action> <action id="showReserves" type="readOnly" resultType="pathMarkup"> 
+			<selectService id="objects" layerFilter="11 22" allowCoordSelection="false" 
+			allowObjectSelection="true" minSelect="1" maxSelect="100" prompt="Select 
+			cablenodes" filterCurrentSelection="true" promptKey="action.showreserves.selectservice.prompt" 
+			helpKey="action.showreserves.selectservice.help"> </selectService> </action> 
+			<action id="removeMarkup" type="readOnly" resultType="internal"> <selectService 
+			id="objects" layerFilter="markup" allowCoordSelection="false" allowObjectSelection="true" 
+			minSelect="1" prompt="Select postion pins" filterCurrentSelection="true" 
+			promptKey="action.removemarkup.selectservice.prompt" helpKey="action.removemarkup.selectservice.help"> 
+			</selectService> </action> <action id="showMapFromCoordinates" type="readOnly" 
+			resultType="internal"> <textInputService id="coordinates" prompt="Enter coordinates" 
+			promptKey="action.showmapfromcoordinates.textinputservice.prompt" helpKey="action.showmapfromcoordinates.textinputservice.help"> 
+			<textInput id="coordX" mandatory="true" fieldType="number" label="Coord X/Lat" 
+			labelKey="action.showmapfromcoordinates.coordX.label" /> <textInput id="coordY" 
+			mandatory="true" fieldType="number" label="Coord Y/Lon" labelKey="action.showmapfromcoordinates.coordY.label" 
+			/> </textInputService> </action -->
+		<action id="swapTrailPort" workOrderMode="true"
+			workOrderFieldId="workOrderId" scope="global" primaryView="TOPOLOGYVIEW">
+			<textInputService id="object" initialState="off"
+				prompt="Select trail for swap port operation" promptKey="action.swapTrailPort.textInputService.prompt"
+				helpKey="action.swapTrailPort.textInputService.help">
+				<textInput id="workOrderId" mandatory="true" row="1"
+					disabledStates="off" displayLength="1"
+					valueFunction="function?bean=Util.getCurrPlanProject?returnType=String"
+					label="Work order Id" labelKey="action.swapTrailPorts.textInputService.workOrderId.label"
+					hintText=""
+					hintTextKey="action.swapTrailPorts.textInputService.workOrderId.hinttext">
+				</textInput>
+				<textInput id="trail" mandatory="true" row="2"
+					displayLength="2" classFilter="135" label="Trail to swap"
+					fieldType="DomainObject"
+					labelKey="action.splitTrailHorizontally.textInputService.trail.label"
+					hintText=""
+					hintTextKey="action.splitTrailHorizontally.textInputService.trail.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="oldTrailPort" />
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="portEquipment" />
+						<eventHandler event="valueCommit" operation="setState"
+							arg="on" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="ruleSet" mandatory="false" fieldType="String"
+					row="3" disabledStates="off" displayLength="1"
+					lookupFunction="function?function=swapTrailPortListRuleSets?trail=:trail?returnType=String"
+					label="Rule set" labelKey="action.swapTrailPorts.textInputService.ruleSet.label"
+					hintText="" hintTextKey="action.swapTrailPorts.textInputService.ruleSet.hinttext">
+				</textInput>
+				<textInput id="allowPartialRoute" mandatory="false"
+					fieldType="boolean" row="3" column="2" disabledStates="off"
+					displayLength="1" label="Allow partial route"
+					labelKey="action.swapTrailPorts.textInputService.allowPartialRoute.label"
+					hintText=""
+					hintTextKey="action.swapTrailPorts.textInputService.allowPartialRoute.hinttext">
+				</textInput>
+				<textInput id="portChangeSide" mandatory="false"
+					fieldType="boolean" row="4" disabledStates="off" displayLength="1"
+					label="From-port change" value="1"
+					labelKey="action.swapTrailPorts.textInputService.portChangeSide.label"
+					hintText="Uncheck to select To-port change"
+					hintTextKey="action.swapTrailPorts.textInputService.portChangeSide.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="oldTrailPort" />
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="portEquipment" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="oldPortToFaulty" mandatory="false"
+					fieldType="boolean" row="4" column="2" disabledStates="off"
+					displayLength="1" label="Old port to Faulty"
+					labelKey="action.swapTrailPorts.textInputService.oldPortToFaulty.label"
+					hintText=""
+					hintTextKey="action.swapTrailPorts.textInputService.oldPortToFaulty.hinttext">
+				</textInput>
+				<textInput id="oldTrailPort" mandatory="false" row="5"
+					disabledStates="off,on" displayLength="2"
+					valueFunction="function?function=swapTrailPortOrigPort?trail=:trail?portChangeSide=:portChangeSide?returnType=DomainObject"
+					label="Old Port" fieldType="DomainObject"
+					labelKey="action.swapTrailPorts.textInputService.newTrailPort.label"
+					hintText=""
+					hintTextKey="action.swapTrailPorts.textInputService.newTrailPort.hinttext">
+				</textInput>
+				<textInput id="portEquipment" mandatory="false" row="6"
+					disabledStates="off" displayLength="2" classFilter="157 158"
+					valueFunction="function?function=swapTrailPortOrigEqu?trail=:trail?portChangeSide=:portChangeSide?returnType=DomainObject"
+					label="Equipment" fieldType="DomainObject"
+					labelKey="action.swapTrailPorts.textInputService.portEquipment.label"
+					hintText=""
+					hintTextKey="action.swapTrailPorts.textInputService.portEquipment.hinttext">
+				</textInput>
+				<textInput id="newTrailPort" mandatory="false" row="7"
+					disabledStates="off" displayLength="2"
+					lookupFunction="function?function=swapTrailPortListPorts?equipment=:portEquipment?trail=:trail?portChangeSide=:portChangeSide?ruleSet=:ruleSet?allowPartialRoute=:allowPartialRoute?returnType=DomainObject"
+					label="New Port" labelKey="action.swapTrailPorts.textInputService.newTrailPort.label"
+					hintText=""
+					hintTextKey="action.swapTrailPorts.textInputService.newTrailPort.hinttext">
+				</textInput>
+			</textInputService>
+		</action>
+	</actions>
+
+	<actions view="EQUIPMENTVIEW">
+		<action id="digNewCrossConnection" repeating="true">
+			<polyLineConstructionService id="path"
+				startLayerFilter="420" endLayerFilter="420" forceLayerFilter="true"
+				prompt="Enter number of xconns to make and draw the first cross connection from a temination position"
+				promptKey="action.digNewCrossConnection.polyLineConstructionService.prompt"
+				helpKey="action.digNewCrossConnection.polyLineConstructionService.help">
+				<textInput id="count" mandatory="true" label="Count"
+					value="1" row="1"
+					labelKey="action.digNewCrossConnection.selectservice.count.label"
+					hintText="Number of cross-connections to make"
+					hintTextKey="action.digNewCrossConnection.selectservice.count.hinttext" />
+			</polyLineConstructionService>
+		</action>
+		<action id="bulkDeleteXCon">
+			<selectService id="objects" layerFilter="83"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="50" prompt="Select Cross connection(s) to delete"
+				filterCurrentSelection="true" promptKey="action.bulkdeletexcon.selectservice.prompt"
+				helpKey="action.bulkdeletexcon.selectservice.help">
+			</selectService>
+		</action>
+
+		<action id="terminatePortOnTermPos" workOrderMode="true"
+			workOrderFieldId="workOrderId">
+			<polyLineConstructionService id="path"
+				startLayerFilter="215 157 158" endLayerFilter="420"
+				forceLayerFilter="true" initialState="off"
+				prompt="Select equipment or interface, then select termination position."
+				promptKey="action.terminatePortOnTermPos.selectservice.prompt"
+				helpKey="action.terminatePortOnTermPos.selectservice.help">
+				<eventHandlers>
+					<eventHandler event="valueCommit" operation="callFunction"
+						target="interfaceList" />
+					<eventHandler event="valueCommit" operation="setState"
+						arg="on" />
+				</eventHandlers>
+				<textInput id="workOrderId" mandatory="false" label="Work order Id"
+					row="1" disabledStates="off"
+					valueFunction="function?bean=Util.getCurrPlanProject?returnType=String"
+					labelKey="action.terminatePortOnTermPos.selectservice.workOrderId.label"
+					hintText=""
+					hintTextKey="action.terminatePortOnTermPos.selectservice.workOrderId.hinttext">
+				</textInput>
+				<textInput id="nonTermTribFilter" mandatory="false"
+					label="Non-terminated trib." fieldType="boolean" row="2"
+					labelKey="action.terminatePortOnTermPos.selectservice.nonTermTribFilter.label"
+					groupId="Interfaces"
+					groupIdKey="action.terminatePortOnTermPos.selectservice.group.interfaces"
+					hintText="Filter non-terminated tributary ports"
+					hintTextKey="action.terminatePortOnTermPos.selectservice.nonTermTribFilter.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="nonTermAggFilter" mandatory="false"
+					label="Non-terminated agg." fieldType="boolean" row="2" column="2"
+					labelKey="action.terminatePortOnTermPos.selectservice.nonTermAggFilter.label"
+					groupId="Interfaces"
+					groupIdKey="action.terminatePortOnTermPos.selectservice.group.interfaces"
+					hintText="Filter non-terminated aggregate ports"
+					hintTextKey="action.terminatePortOnTermPos.selectservice.nonTermAggFilter.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="nonTermFilter" mandatory="false" label="Non-terminated"
+					fieldType="boolean" row="3"
+					labelKey="action.terminatePortOnTermPos.selectservice.nonTermFilter.label"
+					groupId="Interfaces"
+					groupIdKey="action.terminatePortOnTermPos.selectservice.group.interfaces"
+					hintText="Filter non-terminated interfaces"
+					hintTextKey="action.terminatePortOnTermPos.selectservice.nonTermFilter.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="termFilter" mandatory="false" label="Terminated"
+					fieldType="boolean" row="3" column="2"
+					labelKey="action.terminatePortOnTermPos.selectservice.termFilter.label"
+					groupId="Interfaces"
+					groupIdKey="action.terminatePortOnTermPos.selectservice.group.interfaces"
+					hintText="Filter terminated interfaces"
+					hintTextKey="action.terminatePortOnTermPos.selectservice.termFilter.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+					</eventHandlers>
+				</textInput>
+				<domainObjectList id="interfaceList" mandatory="true"
+					row="4" displayHeight="8" groupId="Interfaces"
+					groupIdKey="action.terminatePortOnTermPos.selectservice.group.interfaces"
+					valueFunction="function?function=terminatePortAllPorts?context=:path?nonTermTribFilter=:nonTermTribFilter?nonTermAggFilter=:nonTermAggFilter?nonTermFilter=:nonTermFilter?termFilter=:termFilter?returnType=DomainObject?"
+					labelKey="action.terminatePortOnTermPos.domainObjectList.interfaceList.label" />
+				<textInput id="keepConnectivity" mandatory="false"
+					label="Keep connectivity" fieldType="boolean" row="5"
+					disabledStates="off"
+					labelKey="action.terminatePortOnTermPos.selectservice.keepConnectivity.label"
+					groupId="Termination options"
+					groupIdKey="action.terminatePortOnTermPos.selectservice.group.termOptions"
+					hintText=""
+					hintTextKey="action.terminatePortOnTermPos.selectservice.keepConnectivity.hinttext">
+				</textInput>
+				<textInput id="movePhysAlong" mandatory="false"
+					label="Move phys. cable along" fieldType="boolean" row="5"
+					disabledStates="off" column="2"
+					labelKey="action.terminatePortOnTermPos.selectservice.movePhysAlong.label"
+					groupId="Termination options"
+					groupIdKey="action.terminatePortOnTermPos.selectservice.group.termOptions"
+					hintText="Move physical cable along with trail connection"
+					hintTextKey="action.terminatePortOnTermPos.selectservice.movePhysAlong.hinttext">
+				</textInput>
+				<textInput id="allowBreakDoubleTerm" mandatory="false"
+					label="Allow breaking double term." fieldType="boolean" row="6"
+					disabledStates="off"
+					labelKey="action.terminatePortOnTermPos.selectservice.allowBreakDoubleTerm.label"
+					groupId="Termination options"
+					groupIdKey="action.terminatePortOnTermPos.selectservice.group.termOptions"
+					hintText="Allow breaking double terminated"
+					hintTextKey="action.terminatePortOnTermPos.selectservice.allowBreakDoubleTerm.hinttext">
+				</textInput>
+				<textInput id="determFaulty" mandatory="false"
+					label="De-terminated port to Faulty" fieldType="boolean" row="6"
+					disabledStates="off" column="2"
+					labelKey="action.terminatePortOnTermPos.selectservice.determFaulty.label"
+					groupId="Termination options"
+					groupIdKey="action.terminatePortOnTermPos.selectservice.group.termOptions"
+					hintText=""
+					hintTextKey="action.terminatePortOnTermPos.selectservice.determFaulty.hinttext">
+				</textInput>
+				<textInput id="autoPropagation" mandatory="false"
+					label="Attempt auto. propagation" fieldType="boolean" row="7"
+					disabledStates="off" column="1" value="1"
+					labelKey="action.terminatePortOnTermPos.selectservice.autoPropagation.label"
+					groupId="Termination options"
+					groupIdKey="action.terminatePortOnTermPos.selectservice.group.termOptions"
+					hintText="Attempt propagation of changes on logical network to the physical network"
+					hintTextKey="action.terminatePortOnTermPos.selectservice.autoPropagation.hinttext">
+				</textInput>
+				<textInput id="allowPhysLogMappingLoss" mandatory="false"
+					label="Allow loss of mapping" fieldType="boolean" row="7"
+					disabledStates="off" column="2"
+					labelKey="action.terminatePortOnTermPos.selectservice.allowPhysLogMappingLoss.label"
+					groupId="Termination options"
+					groupIdKey="action.terminatePortOnTermPos.selectservice.group.termOptions"
+					hintText="Allow loss of physical logical mapping"
+					hintTextKey="action.terminatePortOnTermPos.selectservice.allowPhysLogMappingLoss.hinttext">
+				</textInput>
+				<textInput id="cablingPatternInt" mandatory="false" label="Interval"
+					fieldType="integer" row="8" disabledStates="off"
+					labelKey="action.terminatePortOnTermPos.selectservice.cablingPatternInt.label"
+					groupId="Termination pattern"
+					groupIdKey="action.terminatePortOnTermPos.selectservice.group.termPattern"
+					hintText=""
+					hintTextKey="action.terminatePortOnTermPos.selectservice.cablingPatternInt.hinttext">
+				</textInput>
+				<textInput id="cablingPatternSkip" mandatory="false"
+					label="Skip" fieldType="integer" row="8" disabledStates="off"
+					column="2"
+					labelKey="action.terminatePortOnTermPos.selectservice.cablingPatternSkip.label"
+					groupId="Termination pattern"
+					groupIdKey="action.terminatePortOnTermPos.selectservice.group.termPattern"
+					hintText=""
+					hintTextKey="action.terminatePortOnTermPos.selectservice.cablingPatternSkip.hinttext">
+				</textInput>
+			</polyLineConstructionService>
+		</action>
+		<action id="connectPortWithCable" workOrderMode="true"
+			workOrderFieldId="workOrderId" scope="global" primaryView="EQUIPMENTVIEW">
+			<textInputService id="connectPortWithCableParams"
+				initialState="off" prompt="Select equipment or interface."
+				promptKey="action.connectPortWithCable.textInputService.prompt"
+				helpKey="action.connectPortWithCable.textInputService.help">
+				<textInput id="workOrderId" mandatory="false" label="Work order Id"
+					row="1" disabledStates="off"
+					valueFunction="function?bean=Util.getCurrPlanProject?returnType=String"
+					labelKey="action.connectPortWithCable.textInputService.workOrderId.label"
+					hintText=""
+					hintTextKey="action.connectPortWithCable.textInputService.workOrderId.hinttext">
+				</textInput>
+				<textInput id="path" mandatory="true" label="Equipment or interface"
+					fieldType="DomainObject" classFilter="215 157 158" row="2"
+					displayLength="2"
+					labelKey="action.connectPortWithCable.textInputService.path.label"
+					hintText="An interface to connect or an equipment containing interfaces"
+					hintTextKey="action.connectPortWithCable.textInputService.path.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+						<eventHandler event="valueCommit" operation="setState"
+							arg="on" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="nonTermTribFilter" mandatory="false"
+					label="Non-terminated trib." fieldType="boolean" row="3"
+					labelKey="action.connectPortWithCable.textInputService.nonTermTribFilter.label"
+					groupId="Interfaces"
+					groupIdKey="action.connectPortWithCable.textInputService.group.interfaces"
+					hintText="Filter non-terminated tributary ports"
+					hintTextKey="action.connectPortWithCable.textInputService.nonTermTribFilter.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="nonTermAggFilter" mandatory="false"
+					label="Non-terminated agg." fieldType="boolean" row="3" column="2"
+					labelKey="action.connectPortWithCable.textInputService.nonTermAggFilter.label"
+					groupId="Interfaces"
+					groupIdKey="action.connectPortWithCable.textInputService.group.interfaces"
+					hintText="Filter non-terminated aggregate ports"
+					hintTextKey="action.connectPortWithCable.textInputService.nonTermAggFilter.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="nonTermFilter" mandatory="false" label="Non-terminated"
+					fieldType="boolean" row="4"
+					labelKey="action.connectPortWithCable.textInputService.nonTermFilter.label"
+					groupId="Interfaces"
+					groupIdKey="action.connectPortWithCable.textInputService.group.interfaces"
+					hintText="Filter non-terminated interfaces"
+					hintTextKey="action.connectPortWithCable.textInputService.nonTermFilter.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="termFilter" mandatory="false" label="Terminated"
+					fieldType="boolean" row="4" column="2"
+					labelKey="action.connectPortWithCable.textInputService.termFilter.label"
+					groupId="Interfaces"
+					groupIdKey="action.connectPortWithCable.textInputService.group.interfaces"
+					hintText="Filter terminated interfaces"
+					hintTextKey="action.connectPortWithCable.textInputService.termFilter.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+					</eventHandlers>
+				</textInput>
+				<domainObjectList id="interfaceList" mandatory="true"
+					row="5" displayHeight="8" groupId="Interfaces"
+					groupIdKey="action.connectPortWithCable.textInputService.group.interfaces"
+					valueFunction="function?function=terminatePortAllPorts?context=:path?nonTermTribFilter=:nonTermTribFilter?nonTermAggFilter=:nonTermAggFilter?nonTermFilter=:nonTermFilter?termFilter=:termFilter?returnType=DomainObject?"
+					labelKey="action.connectPortWithCable.domainObjectList.interfaceList.label" />
+				<textInput id="cable" mandatory="true" label="Cable"
+					fieldType="DomainObject" row="6" displayLength="2" disabledStates="off"
+					lookupFunction="function?function=getNeighborCablesList?selection=:path?name=:cable?returnType=DomainObject"
+					labelKey="action.connectPortWithCable.textInputService.cable.label"
+					groupId="Cable info"
+					groupIdKey="action.connectPortWithCable.textInputService.group.cableInfo"
+					hintText="The cable to connect with the interfaces"
+					hintTextKey="action.connectPortWithCable.textInputService.cable.hinttext">
+				</textInput>
+				<textInput id="cableConductor" mandatory="true" label="Cable conductor"
+					fieldType="integer" row="7" disabledStates="off"
+					labelKey="action.connectPortWithCable.textInputService.cableConductor.label"
+					groupId="Cable info"
+					groupIdKey="action.connectPortWithCable.textInputService.group.cableInfo"
+					hintText="The start conductor to connect from"
+					hintTextKey="action.connectPortWithCable.textInputService.cableConductor.hinttext">
+				</textInput>
+			</textInputService>
+		</action>
+		<action id="connectPortWithBasicTrail" workOrderMode="true"
+			workOrderFieldId="workOrderId" scope="global" primaryView="EQUIPMENTVIEW">
+			<textInputService id="connectPortWithBasicTrailParams"
+				initialState="off" prompt="Select equipment or interfaces."
+				promptKey="action.connectPortWithBasicTrail.textInputService.prompt"
+				helpKey="action.connectPortWithBasicTrail.textInputService.help">
+				<textInput id="workOrderId" mandatory="false" label="Work order Id"
+					row="1" disabledStates="off"
+					valueFunction="function?bean=Util.getCurrPlanProject?returnType=String"
+					labelKey="action.connectPortWithBasicTrail.textInputService.workOrderId.label"
+					hintText=""
+					hintTextKey="action.connectPortWithBasicTrail.textInputService.workOrderId.hinttext">
+				</textInput>
+				<textInput id="path" mandatory="true" label="Equipment or interface"
+					fieldType="DomainObject" classFilter="215 157 158" row="2"
+					displayLength="2"
+					labelKey="action.connectPortWithBasicTrail.textInputService.path.label"
+					hintText="An interface to connect or an equipment containing interfaces"
+					hintTextKey="action.connectPortWithBasicTrail.textInputService.path.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+						<eventHandler event="valueCommit" operation="setState"
+							arg="on" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="nonTermTribFilter" mandatory="false"
+					label="Non-terminated trib." fieldType="boolean" row="3"
+					labelKey="action.connectPortWithBasicTrail.textInputService.nonTermTribFilter.label"
+					groupId="Interfaces"
+					groupIdKey="action.connectPortWithBasicTrail.textInputService.group.interfaces"
+					hintText="Filter non-terminated tributary ports"
+					hintTextKey="action.connectPortWithBasicTrail.textInputService.nonTermTribFilter.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="nonTermAggFilter" mandatory="false"
+					label="Non-terminated agg." fieldType="boolean" row="3" column="2"
+					labelKey="action.connectPortWithBasicTrail.textInputService.nonTermAggFilter.label"
+					groupId="Interfaces"
+					groupIdKey="action.connectPortWithBasicTrail.textInputService.group.interfaces"
+					hintText="Filter non-terminated aggregate ports"
+					hintTextKey="action.connectPortWithBasicTrail.textInputService.nonTermAggFilter.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="nonTermFilter" mandatory="false" label="Non-terminated"
+					fieldType="boolean" row="4"
+					labelKey="action.connectPortWithBasicTrail.textInputService.nonTermFilter.label"
+					groupId="Interfaces"
+					groupIdKey="action.connectPortWithBasicTrail.textInputService.group.interfaces"
+					hintText="Filter non-terminated interfaces"
+					hintTextKey="action.connectPortWithBasicTrail.textInputService.nonTermFilter.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="termFilter" mandatory="false" label="Terminated"
+					fieldType="boolean" row="4" column="2"
+					labelKey="action.connectPortWithBasicTrail.textInputService.termFilter.label"
+					groupId="Interfaces"
+					groupIdKey="action.connectPortWithBasicTrail.textInputService.group.interfaces"
+					hintText="Filter terminated interfaces"
+					hintTextKey="action.connectPortWithBasicTrail.textInputService.termFilter.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+					</eventHandlers>
+				</textInput>
+				<domainObjectList id="interfaceList" mandatory="true"
+					row="5" displayHeight="8" groupId="Interfaces"
+					groupIdKey="action.connectPortWithBasicTrail.textInputService.group.interfaces"
+					valueFunction="function?function=terminatePortAllPorts?context=:path?nonTermTribFilter=:nonTermTribFilter?nonTermAggFilter=:nonTermAggFilter?nonTermFilter=:nonTermFilter?termFilter=:termFilter?returnType=DomainObject?"
+					labelKey="action.connectPortWithBasicTrail.domainObjectList.interfaceList.label" />
+				<textInput id="allowBreakingDblTerm" mandatory="false"
+					label="Allow breaking double-term." fieldType="boolean" row="6"
+					labelKey="action.connectPortWithBasicTrail.textInputService.allowBreakingDblTerm.label"
+					groupId="Connection options"
+					groupIdKey="action.connectPortWithBasicTrail.textInputService.group.connOptions"
+					hintText="Allow breaking double-terminations (interface/connections)"
+					hintTextKey="action.connectPortWithBasicTrail.textInputService.allowBreakingDblTerm.hinttext">
+				</textInput>
+				<textInput id="trail" mandatory="true" label="Trail"
+					fieldType="DomainObject" row="7" disabledStates="off"
+					displayLength="2"
+					labelKey="action.connectPortWithBasicTrail.textInputService.trail.label"
+					lookupFunction="function?function=terminatePortNeighborTrails?name=:trail?selection=:path"
+					groupId="Trail info"
+					groupIdKey="action.connectPortWithBasicTrail.textInputService.group.trailInfo"
+					hintText="The trail to connect with the interfaces"
+					hintTextKey="action.connectPortWithBasicTrail.textInputService.trail.hinttext">
+				</textInput>
+				<textInput id="trailConnection" mandatory="true"
+					label="Trail connection" fieldType="integer" row="8"
+					disabledStates="off"
+					labelKey="action.connectPortWithBasicTrail.textInputService.trailConnection.label"
+					groupId="Trail info"
+					groupIdKey="action.connectPortWithBasicTrail.textInputService.group.trailInfo"
+					hintText="The trail connection to connect from"
+					hintTextKey="action.connectPortWithBasicTrail.textInputService.trailConnection.hinttext">
+				</textInput>
+			</textInputService>
+		</action>
+		<action id="removePortTerm" workOrderMode="true"
+			workOrderFieldId="workOrderId" scope="global" primaryView="EQUIPMENTVIEW">
+			<textInputService id="removePortTermParams"
+				initialState="off" prompt="Select equipment or interfaces."
+				promptKey="action.removePortTerm.textInputService.prompt" helpKey="action.removePortTerm.textInputService.help">
+				<eventHandlers>
+					<eventHandler event="valueCommit" operation="callFunction"
+						target="interfaceList" />
+					<eventHandler event="valueCommit" operation="setState"
+						arg="on" />
+				</eventHandlers>
+				<textInput id="workOrderId" mandatory="false" label="Work order Id"
+					row="1" disabledStates="off"
+					valueFunction="function?bean=Util.getCurrPlanProject?returnType=String"
+					labelKey="action.removePortTerm.textInputService.workOrderId.label"
+					hintText=""
+					hintTextKey="action.removePortTerm.textInputService.workOrderId.hinttext">
+				</textInput>
+				<textInput id="path" mandatory="true" label="Equipment or interface"
+					fieldType="DomainObject" classFilter="215 157 158" row="2"
+					displayLength="2" labelKey="action.removePortTerm.textInputService.path.label"
+					hintText="An interface to connect or an equipment containing interfaces"
+					hintTextKey="action.removePortTerm.textInputService.path.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+						<eventHandler event="valueCommit" operation="setState"
+							arg="on" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="termFilter" mandatory="false" label="Terminated"
+					fieldType="boolean" row="3" column="1"
+					labelKey="action.connectPortWithCable.textInputService.termFilter.label"
+					groupId="Interfaces"
+					groupIdKey="action.connectPortWithCable.textInputService.group.interfaces"
+					hintText="Filter terminated interfaces"
+					hintTextKey="action.connectPortWithCable.textInputService.termFilter.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="interfaceList" />
+					</eventHandlers>
+				</textInput>
+				<domainObjectList id="interfaceList" mandatory="true"
+					row="4" groupId="Interfaces"
+					groupIdKey="action.removePortTerm.textInputService.group.interfaces"
+					valueFunction="function?function=terminatePortAllPorts?context=:path?nonTermTribFilter=0?nonTermAggFilter=0?nonTermFilter=0?termFilter=:termFilter?returnType=DomainObject?"
+					labelKey="action.removePortTerm.domainObjectList.interfaceList.label" />
+			</textInputService>
+		</action>
+		<action id="terminateBasicTrail" workOrderMode="true"
+			workOrderFieldId="workOrderId" scope="global" primaryView="EQUIPMENTVIEW">
+			<textInputService id="terminateBasicTrailParams"
+				initialState="off" prompt="Select start termination position."
+				promptKey="action.terminateBasicTrail.textInputService.prompt"
+				helpKey="action.terminateBasicTrail.textInputService.help">
+				<textInput id="workOrderId" mandatory="false" label="Work order Id"
+					row="1" disabledStates="off"
+					valueFunction="function?bean=Util.getCurrPlanProject?returnType=String"
+					labelKey="action.terminateBasicTrail.textInputService.workOrderId.label"
+					hintText=""
+					hintTextKey="action.terminateBasicTrail.textInputService.workOrderId.hinttext">
+				</textInput>
+				<textInput id="path" mandatory="true"
+					label="Start Termination Position" fieldType="DomainObject"
+					classFilter="420" row="2" displayLength="2"
+					labelKey="action.terminateBasicTrail.textInputService.path.label"
+					hintText="The start termination position for the termination of the basic trail"
+					hintTextKey="action.terminateBasicTrail.textInputService.path.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="setState"
+							arg="on" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="trail" mandatory="true" label="Trail"
+					fieldType="DomainObject"
+					lookupFunction="function?function=terminateTrailNeighborTrails?name=:trail?selection=:path"
+					row="3" disabledStates="off" displayLength="2"
+					labelKey="action.terminateBasicTrail.textInputService.trail.label"
+					hintText="The trail to terminate"
+					hintTextKey="action.terminateBasicTrail.textInputService.trail.hinttext">
+				</textInput>
+				<textInput id="termToSide" mandatory="false" label="Terminate to-side"
+					fieldType="boolean" row="4" disabledStates="off"
+					labelKey="action.terminateBasicTrail.textInputService.termToSide.label"
+					groupId="Termination options"
+					groupIdKey="action.terminateBasicTrail.textInputService.group.termOptions"
+					hintText=""
+					hintTextKey="action.terminateBasicTrail.textInputService.termToSide.hinttext">
+				</textInput>
+				<textInput id="keepConnectivity" mandatory="false"
+					label="Keep connectivity" fieldType="boolean" row="4"
+					disabledStates="off" column="2"
+					labelKey="action.terminateBasicTrail.textInputService.keepConnectivity.label"
+					groupId="Termination options"
+					groupIdKey="action.terminateBasicTrail.textInputService.group.termOptions"
+					hintText=""
+					hintTextKey="action.terminateBasicTrail.textInputService.keepConnectivity.hinttext">
+				</textInput>
+				<textInput id="autoPropagation" mandatory="false"
+					label="Attempt auto. propagation" fieldType="boolean" row="5"
+					disabledStates="off" column="1" value="1"
+					labelKey="action.terminateBasicTrail.textInputService.autoPropagation.label"
+					groupId="Termination options"
+					groupIdKey="action.terminateBasicTrail.textInputService.group.termOptions"
+					hintText="Attempt propagation of changes on logical network to the physical network"
+					hintTextKey="action.terminateBasicTrail.textInputService.autoPropagation.hinttext">
+				</textInput>
+				<textInput id="allowPhysLogMappingLoss" mandatory="false"
+					label="Allow loss of mapping" fieldType="boolean" row="5"
+					disabledStates="off" column="2"
+					labelKey="action.terminateBasicTrail.textInputService.allowPhysLogMappingLoss.label"
+					groupId="Termination options"
+					groupIdKey="action.terminateBasicTrail.textInputService.group.termOptions"
+					hintText="Allow loss of physical logical mapping"
+					hintTextKey="action.terminateBasicTrail.textInputService.allowPhysLogMappingLoss.hinttext">
+				</textInput>
+			</textInputService>
+		</action>
+		<action id="terminateDropTrail" workOrderMode="true"
+			workOrderFieldId="workOrderId" scope="global" primaryView="EQUIPMENTVIEW">
+			<textInputService id="terminateDropTrailParams"
+				initialState="off" prompt="Select termination position."
+				promptKey="action.terminateDropTrail.selectservice.prompt" helpKey="action.terminateDropTrail.selectservice.help">
+				<eventHandlers>
+					<eventHandler event="valueCommit" operation="setState"
+						arg="on" />
+				</eventHandlers>
+				<textInput id="workOrderId" mandatory="false" label="Work order Id"
+					row="1" disabledStates="off"
+					valueFunction="function?bean=Util.getCurrPlanProject?returnType=String"
+					labelKey="action.terminateDropTrail.selectservice.workOrderId.label"
+					hintText=""
+					hintTextKey="action.terminateDropTrail.selectservice.workOrderId.hinttext">
+				</textInput>
+				<textInput id="path" mandatory="true" label="Termination Position"
+					fieldType="DomainObject" classFilter="420" row="2" displayLength="2"
+					labelKey="action.terminateDropTrail.textInputService.path.label"
+					hintText="The start termination position for the termination of the drop trail"
+					hintTextKey="action.terminateDropTrail.textInputService.path.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="setState"
+							arg="on" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="trail" mandatory="true" label="Trail"
+					fieldType="DomainObject"
+					lookupFunction="function?function=terminateTrailNeighborTrails?name=:trail?selection=:path?filterDrop=1"
+					row="3" disabledStates="off" displayLength="2"
+					labelKey="action.terminateDropTrail.selectservice.trail.label"
+					hintText="The trail to terminate" hintTextKey="action.terminateDropTrail.selectservice.trail.hinttext">
+				</textInput>
+				<textInput id="trailConnection" mandatory="true"
+					label="Trail connection" fieldType="DomainObject"
+					lookupFunction="function?function=terminateDropTrailConnections?name=:trailConnection?trail=:trail"
+					row="4" disabledStates="off" displayLength="2"
+					labelKey="action.terminateDropTrail.selectservice.trailConnection.label"
+					hintText="The trail connection to terminate"
+					hintTextKey="action.terminateDropTrail.selectservice.trailConnection.hinttext">
+				</textInput>
+				<textInput id="termToSide" mandatory="false" label="Terminate to-side"
+					fieldType="boolean" row="5" disabledStates="off"
+					labelKey="action.terminateDropTrail.selectservice.termToSide.label"
+					groupId="Termination options" groupIdKey="action.terminateDropTrail.selectservice.group.termOptions"
+					hintText=""
+					hintTextKey="action.terminateDropTrail.selectservice.termToSide.hinttext">
+				</textInput>
+				<textInput id="keepConnectivity" mandatory="false"
+					label="Keep connectivity" fieldType="boolean" row="5"
+					disabledStates="off" column="2"
+					labelKey="action.terminateDropTrail.selectservice.keepConnectivity.label"
+					groupId="Termination options" groupIdKey="action.terminateDropTrail.selectservice.group.termOptions"
+					hintText=""
+					hintTextKey="action.terminateDropTrail.selectservice.keepConnectivity.hinttext">
+				</textInput>
+				<textInput id="autoPropagation" mandatory="false"
+					label="Attempt auto. propagation" fieldType="boolean" row="6"
+					disabledStates="off" column="1" value="1"
+					labelKey="action.terminateDropTrail.selectservice.autoPropagation.label"
+					groupId="Termination options" groupIdKey="action.terminateDropTrail.selectservice.group.termOptions"
+					hintText="Attempt propagation of changes on logical network to the physical network"
+					hintTextKey="action.terminateDropTrail.selectservice.autoPropagation.hinttext">
+				</textInput>
+				<textInput id="allowPhysLogMappingLoss" mandatory="false"
+					label="Allow loss of mapping" fieldType="boolean" row="6"
+					disabledStates="off" column="2"
+					labelKey="action.terminateDropTrail.selectservice.allowPhysLogMappingLoss.label"
+					groupId="Termination options" groupIdKey="action.terminateDropTrail.selectservice.group.termOptions"
+					hintText="Allow loss of physical logical mapping"
+					hintTextKey="action.terminateDropTrail.selectservice.allowPhysLogMappingLoss.hinttext">
+				</textInput>
+			</textInputService>
+		</action>
+		<action id="terminateCable" repeating="true" scope="global"
+			primaryView="EQUIPMENTVIEW">
+			<textInputService id="terminateCableParams"
+				initialState="off" prompt="Select termination position."
+				promptKey="action.terminateCable.textInputService.prompt" helpKey="action.terminateCable.textInputService.help">
+				<textInput id="path" mandatory="true"
+					label="Start Termination Position" fieldType="DomainObject"
+					classFilter="420" row="1" displayLength="2"
+					labelKey="action.terminateDropTrail.textInputService.path.label"
+					hintText="The start termination position for the termination of the physical cable"
+					hintTextKey="action.terminateDropTrail.textInputService.path.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="setState"
+							arg="on" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="cable" mandatory="true" label="Cable"
+					fieldType="DomainObject" row="2" classFilter="27" repeating="false"
+					disabledStates="off" displayLength="2"
+					lookupFunction="nameQuery?name=:cable?classId=27" labelKey="action.terminateCable.textInputService.trail.label"
+					hintText="The physical cable to terminate" hintTextKey="action.terminateCable.textInputService.trail.hinttext">
+				</textInput>
+				<textInput id="fromPair" mandatory="true" label="From pair"
+					row="3" disabledStates="off" fieldType="Integer" repeating="false"
+					labelKey="action.terminateCable.textInputService.fromPair.label"
+					lookupFunction="function?function=getFreeRangeInCable?node=:cableNode?cable=:cable?pos=:path?returnType=Integer"
+					hintText="First pair to terminate" hintTextKey="action.terminateCable.textInputService.fromPair.hinttext">
+				</textInput>
+				<textInput id="toPair" mandatory="true" label="To pair"
+					row="3" column="2" disabledStates="off" fieldType="Integer"
+					repeating="false" labelKey="action.terminateCable.textInputService.toPair.label"
+					lookupFunction="function?function=getFreeRangeInCable?node=:cableNode?cable=:cable?start=:fromPair?pos=:path?returnType=Integer"
+					hintText="Last pair to terminate" hintTextKey="action.terminateCable.textInputService.toPair.hinttext">
+				</textInput>
+				<textInput id="autoPropagation" mandatory="false"
+					label="Attempt auto. propagation" fieldType="boolean" row="4"
+					disabledStates="off" column="1" value="1"
+					labelKey="action.terminateCable.textInputService.autoPropagation.label"
+					groupId="Termination options" groupIdKey="action.terminateCable.textInputService.group.termOptions"
+					hintText="Attempt propagation of changes on logical network to the physical network"
+					hintTextKey="action.terminateCable.textInputService.autoPropagation.hinttext">
+				</textInput>
+				<textInput id="allowPhysLogMappingLoss" mandatory="false"
+					label="Allow loss of mapping" fieldType="boolean" row="4"
+					disabledStates="off" column="2"
+					labelKey="action.terminateCable.textInputService.allowPhysLogMappingLoss.label"
+					groupId="Termination options" groupIdKey="action.terminateCable.textInputService.group.termOptions"
+					hintText="Allow loss of physical logical mapping"
+					hintTextKey="action.terminateCable.textInputService.allowPhysLogMappingLoss.hinttext">
+				</textInput>
+				<textInput id="allowDifferentExchangeAreas" mandatory="false"
+					label="Allow different exchange ares" fieldType="boolean" row="5"
+					disabledStates="off" column="1"
+					labelKey="action.terminateCable.textInputService.allowDifferentExchangeAreas.label"
+					groupId="Termination options" groupIdKey="action.terminateCable.textInputService.group.termOptions"
+					hintText="Allow termination in different exchange area"
+					hintTextKey="action.terminateCable.textInputService.allowDifferentExchangeAreas.hinttext">
+				</textInput>
+			</textInputService>
+		</action>
+		<action id="connectCardToTTF" scope="global" primaryView="EQUIPMENTVIEW">
+			<textInputService id="connectCardToTTFParams"
+				prompt="Select card." promptKey="action.connectCardToTTF.textInputService.prompt"
+				helpKey="action.connectCardToTTF.textInputService.help">
+				<textInput id="card" mandatory="true" label="Card"
+					fieldType="DomainObject" classFilter="180" row="1" displayLength="2"
+					labelKey="action.connectCardToTTF.textInputService.path.label"
+					hintText="The start termination position for the termination of the physical cable"
+					hintTextKey="action.connectCardToTTF.textInputService.path.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="ttfList" />
+					</eventHandlers>
+				</textInput>
+				<domainObjectList id="ttfList" mandatory="true"
+					row="2" singleSelect="true" repeating="false"
+					valueFunction="function?function=getTTFsForConnectCard?context=:card?returnType=DomainObject?"
+					label="Aggregate Ports (select one)" labelKey="action.connectCardToTTF.domainObjectList.ttfList.label" />
+			</textInputService>
+		</action>
+		<action id="buildEquipmentInEquipmentFromTemplate" scope="global"
+			primaryView="EQUIPMENTVIEW">
+			<textInputService id="buildParams" initialState="off"
+				prompt="Select container equipment."
+				promptKey="action.buildEquipmentInEquipmentFromTemplate.textInputService.prompt"
+				helpKey="action.buildEquipmentInEquipmentFromTemplate.textInputService.help">
+				<textInput id="selectedEquipment" mandatory="true"
+					label="Container Equipment" fieldType="DomainObject" row="1"
+					displayLength="2" classFilter="157 275" repeating="false"
+					labelKey="action.buildEquipmentInEquipmentFromTemplate.textInputService.selectedEquipment.label"
+					hintText=""
+					hintTextKey="action.buildEquipmentInEquipmentFromTemplate.textInputService.selectedEquipment.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="setState"
+							arg="on" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="equClassId" mandatory="true" label="Equipment Type"
+					fieldType="LookupField"
+					lookupFunction="function?bean=Util.getSubClasses?classId=157 275?returnType=LookupField"
+					row="2" disabledStates="off" displayLength="1" repeating="false"
+					labelKey="action.buildEquipmentInEquipmentFromTemplate.textInputService.equClassId.label"
+					hintText=""
+					hintTextKey="action.buildEquipmentInEquipmentFromTemplate.textInputService.equClassId.hinttext">
+				</textInput>
+				<textInput id="template" mandatory="true" label="Template Name"
+					fieldType="DomainObject"
+					lookupFunction="function?function=getTemplates?classId=:equClassId?selectedEquipment=:selectedEquipment?name=:template"
+					row="2" column="2" disabledStates="off" displayLength="1"
+					repeating="false"
+					labelKey="action.buildEquipmentInEquipmentFromTemplate.textInputService.template.label"
+					hintText=""
+					hintTextKey="action.buildEquipmentInEquipmentFromTemplate.textInputService.template.hinttext">
+				</textInput>
+				<textInput id="equName" mandatory="false" label="Equipment Name"
+					fieldType="String" row="3" disabledStates="off" displayLength="1"
+					repeating="false"
+					labelKey="action.buildEquipmentInEquipmentFromTemplate.textInputService.equName.label"
+					hintText=""
+					hintTextKey="action.buildEquipmentInEquipmentFromTemplate.textInputService.equName.hinttext">
+				</textInput>
+				<textInput id="contextEquSlot" mandatory="true" label="Slot"
+					fieldType="DomainObject"
+					lookupFunction="function?function=getEquipmentSlots?template=:template?selectedContainer=:selectedEquipment?name=:contextEquSlot"
+					row="3" column="2" disabledStates="off" displayLength="1"
+					repeating="false"
+					labelKey="action.buildEquipmentInEquipmentFromTemplate.textInputService.contextEquSlot.label"
+					hintText=""
+					hintTextKey="action.buildEquipmentInEquipmentFromTemplate.textInputService.contextEquSlot.hinttext">
+				</textInput>
+			</textInputService>
+		</action>
+		<action id="buildEquipmentInFlexPointFromTemplate" scope="global"
+			primaryView="EQUIPMENTVIEW">
+			<textInputService id="buildParams" initialState="off"
+				prompt="Find flexibility point."
+				promptKey="action.buildEquipmentInFlexPointFromTemplate.textInputService.prompt"
+				helpKey="action.buildEquipmentInFlexPointFromTemplate.textInputService.help">
+				<textInput id="selectedFlexibilityPoint" mandatory="true"
+					label="Flexibility point" fieldType="DomainObject" row="1"
+					displayLength="2" classFilter="11" repeating="false"
+					labelKey="action.buildEquipmentInFlexPointFromTemplate.textInputService.selectedFlexibilityPoint.label"
+					hintText=""
+					hintTextKey="action.buildEquipmentInFlexPointFromTemplate.textInputService.selectedFlexibilityPoint.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="setState"
+							arg="on" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="equClassId" mandatory="true" label="Equipment Type"
+					fieldType="LookupField"
+					lookupFunction="function?bean=Util.getSubClasses?classId=157 275?returnType=LookupField"
+					row="2" disabledStates="off" displayLength="1" repeating="false"
+					labelKey="action.buildEquipmentInFlexPointFromTemplate.textInputService.equClassId.label"
+					hintText=""
+					hintTextKey="action.buildEquipmentInFlexPointFromTemplate.textInputService.equClassId.hinttext">
+				</textInput>
+				<textInput id="template" mandatory="true" label="Template Name"
+					fieldType="DomainObject"
+					lookupFunction="function?function=getTemplates?classId=:equClassId?selectedEquipment=:selectedEquipment?name=:template"
+					row="2" column="2" disabledStates="off" displayLength="1"
+					repeating="false"
+					labelKey="action.buildEquipmentInFlexPointFromTemplate.textInputService.template.label"
+					hintText=""
+					hintTextKey="action.buildEquipmentInFlexPointFromTemplate.textInputService.template.hinttext">
+				</textInput>
+				<textInput id="equName" mandatory="false" label="Equipment Name"
+					fieldType="String" row="3" disabledStates="off" displayLength="1"
+					repeating="false"
+					labelKey="action.buildEquipmentInFlexPointFromTemplate.textInputService.equName.label"
+					hintText=""
+					hintTextKey="action.buildEquipmentInFlexPointFromTemplate.textInputService.equName.hinttext">
+				</textInput>
+			</textInputService>
+		</action>
+		<action id="locateEquipment" workOrderMode="true"
+			workOrderFieldId="workOrderId" scope="global" primaryView="EQUIPMENTVIEW">
+			<textInputService id="equipment"
+				prompt="Select equipment to re-locate and for each select target container equipment and slot."
+				promptKey="action.locateEquipment.textInputService.prompt" helpKey="action.locateEquipment.textInputService.help">
+				<textInput id="workOrderId" mandatory="false" row="1"
+					disabledStates="off" displayLength="1"
+					valueFunction="function?bean=Util.getCurrPlanProject?returnType=String"
+					label="Work order Id" labelKey="action.locateEquipment.textInputService.workOrderId.label"
+					hintText=""
+					hintTextKey="action.locateEquipment.textInputService.workOrderId.hinttext">
+				</textInput>
+				<domainObjectList id="equipmentList" mandatory="true"
+					row="2" autoCheckLimit="100" displayHeight="15" repeating="false"
+					classFilter="72 157 158 275" label="Equipment to locate"
+					labelKey="action.locateEquipment.domainObjectList.selectedEquipment.label"
+					hintText=""
+					hintTextKey="action.locateEquipment.domainObjectList.selectedEquipment.hinttext">
+					<itemEditor>
+						<textInputService id="equipmentItem">
+							<textInput id="container" mandatory="true" row="3"
+								disabledStates="off" displayLength="2" classFilter="11 157 158 275"
+								repeating="false" label="Container" fieldType="DomainObject"
+								labelKey="action.locateEquipment.textInputService.container.label"
+								hintText=""
+								hintTextKey="action.locateEquipment.textInputService.container.hinttext">
+							</textInput>
+							<textInput id="slot" row="4" disabledStates="off"
+								displayLength="1" repeating="false"
+								lookupFunction="function?function=getEquipmentSlots?equipment=:equipmentItem?container=:container?horizontalOffset=:horizontaldist?verticalOffset=:verticaldist?name=:slot?returnType=DomainObject"
+								label="Slot" fieldType="DomainObject"
+								labelKey="action.locateEquipment.textInputService.slot.label"
+								hintText="" hintTextKey="action.locateEquipment.textInputService.slot.hinttext">
+							</textInput>
+							<textInput id="rotation" row="5" value="0"
+								disabledStates="off" displayLength="1" repeating="false"
+								lookupFunction="function?function=getLookupValues?classId=115?attributeName=EQU_ROTA?returnType=LookupField"
+								label="Rotation" fieldType="LookupField"
+								labelKey="action.locateEquipment.textInputService.rotation.label"
+								hintText=""
+								hintTextKey="action.locateEquipment.textInputService.rotation.hinttext">
+							</textInput>
+							<textInput id="refpoint" row="5" column="2" value="1"
+								disabledStates="off" displayLength="1" repeating="false"
+								lookupFunction="function?function=getLookupValues?classId=115?attributeName=EQU_ORIG?returnType=LookupField"
+								label="Reference Point" fieldType="LookupField"
+								labelKey="action.locateEquipment.textInputService.refpoint.label"
+								hintText=""
+								hintTextKey="action.locateEquipment.textInputService.refpoint.hinttext">
+							</textInput>
+							<textInput id="horizontaldist" row="6" disabledStates="off"
+								displayLength="1" repeating="false" label="Horizontal Distance (mm)"
+								labelKey="action.locateEquipment.textInputService.horizontaldist.label"
+								hintText=""
+								hintTextKey="action.locateEquipment.textInputService.horizontaldist.hinttext">
+							</textInput>
+							<textInput id="verticaldist" row="6" column="2"
+								disabledStates="off" displayLength="1" repeating="false"
+								label="Vertical Distance (mm)"
+								labelKey="action.locateEquipment.textInputService.verticaldist.label"
+								hintText=""
+								hintTextKey="action.locateEquipment.textInputService.verticaldist.hinttext">
+							</textInput>
+						</textInputService>
+					</itemEditor>
+				</domainObjectList>
+			</textInputService>
+		</action>
+		<action id="swapTrailPorts" workOrderMode="true"
+			workOrderFieldId="workOrderId">
+			<selectService id="equipment" layerFilter="157 158"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="2"
+				prompt="Select equipment where trails are connected, then select equipment with ports (optional)."
+				promptKey="action.swapTrailPorts.selectservice.prompt" helpKey="action.swapTrailPorts.selectservice.help">
+				<eventHandlers>
+					<eventHandler event="valueCommit" selectionCount="1"
+						operation="callFunction" target="trailList" />
+					<eventHandler event="valueCommit" operation="callFunction"
+						target="portEquipment" />
+				</eventHandlers>
+				<textInput id="workOrderId" mandatory="true" row="1"
+					disabledStates="off" displayLength="1"
+					valueFunction="function?bean=Util.getCurrPlanProject?returnType=String"
+					label="Work order Id" labelKey="action.swapTrailPorts.selectservice.workOrderId.label"
+					hintText="" hintTextKey="action.swapTrailPorts.selectservice.workOrderId.hinttext">
+				</textInput>
+				<domainObjectList id="trailList" mandatory="true"
+					row="2"
+					valueFunction="function?function=swapTrailPortTrails?selectedEquipment=:equipment?returnType=DomainObject?"
+					label="Trails" labelKey="action.swapTrailPorts.domainObjectList.trailList.label">
+				</domainObjectList>
+				<textInput id="ruleSet" mandatory="false" fieldType="String"
+					row="3" disabledStates="off" displayLength="1"
+					lookupFunction="function?function=swapTrailPortListRuleSets?trails=:trailList?returnType=String"
+					label="Rule set" labelKey="action.swapTrailPorts.selectservice.ruleSet.label"
+					hintText="" hintTextKey="action.swapTrailPorts.selectservice.ruleSet.hinttext">
+				</textInput>
+				<textInput id="allowPartialRoute" mandatory="false"
+					fieldType="boolean" row="3" column="2" disabledStates="off"
+					displayLength="1" label="Allow partial route"
+					labelKey="action.swapTrailPorts.selectservice.allowPartialRoute.label"
+					hintText=""
+					hintTextKey="action.swapTrailPorts.selectservice.allowPartialRoute.hinttext">
+				</textInput>
+				<textInput id="portChangeSide" mandatory="false"
+					fieldType="boolean" row="4" disabledStates="off" displayLength="1"
+					label="From-port change" value="1"
+					labelKey="action.swapTrailPorts.selectservice.portChangeSide.label"
+					hintText="Uncheck to select To-port change"
+					hintTextKey="action.swapTrailPorts.selectservice.portChangeSide.hinttext">
+				</textInput>
+				<textInput id="oldPortToFaulty" mandatory="false"
+					fieldType="boolean" row="4" column="2" disabledStates="off"
+					displayLength="1" label="Old port to Faulty"
+					labelKey="action.swapTrailPorts.selectservice.oldPortToFaulty.label"
+					hintText=""
+					hintTextKey="action.swapTrailPorts.selectservice.oldPortToFaulty.hinttext">
+				</textInput>
+				<textInput id="portEquipment" mandatory="false" row="5"
+					disabledStates="off" displayLength="2" classFilter="157 158"
+					valueFunction="function?bean=Util.getPathElement?path=:equipment?index=end?returnType=DomainObject"
+					label="Equipment" fieldType="DomainObject"
+					labelKey="action.swapTrailPorts.selectservice.portEquipment.label"
+					hintText=""
+					hintTextKey="action.swapTrailPorts.selectservice.portEquipment.hinttext">
+				</textInput>
+				<textInput id="newTrailPort" mandatory="false" row="6"
+					disabledStates="off" displayLength="2"
+					lookupFunction="function?function=swapTrailPortListPorts?equipment=:portEquipment?trails=:trailList?portChangeSide=:portChangeSide?ruleSet=:ruleSet?allowPartialRoute=:allowPartialRoute?returnType=DomainObject"
+					label="Port" labelKey="action.swapTrailPorts.selectservice.newTrailPort.label"
+					hintText=""
+					hintTextKey="action.swapTrailPorts.selectservice.newTrailPort.hinttext">
+				</textInput>
+			</selectService>
+		</action>
+		<action id="insertFlexibilityPoint">
+			<selectService id="positions" layerFilter="420"
+				allowCoordSelection="false" allowObjectSelection="true" minSelect="1"
+				maxSelect="2"
+				prompt="Fetch the trail to split, and select the start positions, where the upstream and downstream trails are to be terminated."
+				promptKey="action.insertFlexibilityPoint.selectservice.prompt"
+				helpKey="action.insertFlexibilityPoint.selectservice.help">
+				<eventHandlers>
+					<eventHandler event="valueCommit" operation="callFunction"
+						target="termPosIn" />
+					<eventHandler event="valueCommit" operation="callFunction"
+						target="termPosOut" />
+				</eventHandlers>
+				<textInput id="trail" mandatory="true" row="1"
+					disabledStates="off" displayLength="2" classFilter="144" label="Trail to split"
+					fieldType="DomainObject" labelKey="action.insertFlexibilityPoint.selectservice.trail.label"
+					hintText=""
+					hintTextKey="action.insertFlexibilityPoint.selectservice.trail.hinttext">
+				</textInput>
+				<textInput id="termPosIn" mandatory="true" row="2"
+					disabledStates="off" displayLength="2"
+					valueFunction="function?function=getPosElementInSelection?selection=:positions?index=0?returnType=DomainObject"
+					label="Start position upstream trail" fieldType="DomainObject"
+					labelKey="action.insertFlexibilityPoint.selectservice.termPosIn.label"
+					hintText=""
+					hintTextKey="action.insertFlexibilityPoint.selectservice.termPosIn.hinttext">
+				</textInput>
+				<textInput id="termPosOut" mandatory="true" row="3"
+					disabledStates="off" displayLength="2"
+					valueFunction="function?function=getPosElementInSelection?selection=:positions?index=1?returnType=DomainObject"
+					label="Start position downstream trail" fieldType="DomainObject"
+					labelKey="action.insertFlexibilityPoint.selectservice.termPosOut.label"
+					hintText=""
+					hintTextKey="action.insertFlexibilityPoint.selectservice.termPosOut.hinttext">
+				</textInput>
+				<textInput id="autoPropagation" mandatory="false"
+					label="Attempt auto. propagation" fieldType="boolean" row="4"
+					disabledStates="off" column="1" value="1"
+					labelKey="action.insertFlexibilityPoint.selectservice.autoPropagation.label"
+					groupId="Termination options"
+					groupIdKey="action.insertFlexibilityPoint.selectservice.group.termOptions"
+					hintText="Attempt propagation of changes on logical network to the physical network"
+					hintTextKey="action.insertFlexibilityPoint.selectservice.autoPropagation.hinttext">
+				</textInput>
+				<textInput id="allowPhysLogMappingLoss" mandatory="false"
+					label="Allow loss of mapping" fieldType="boolean" row="4"
+					disabledStates="off" column="2"
+					labelKey="action.insertFlexibilityPoint.selectservice.allowPhysLogMappingLoss.label"
+					groupId="Termination options"
+					groupIdKey="action.insertFlexibilityPoint.selectservice.group.termOptions"
+					hintText="Allow loss of physical logical mapping"
+					hintTextKey="action.insertFlexibilityPoint.selectservice.allowPhysLogMappingLoss.hinttext">
+				</textInput>
+				<textInput id="allowDeleteMeasurements" mandatory="false"
+					label="Allow loss of measurements" fieldType="boolean" row="5"
+					disabledStates="off" column="1"
+					labelKey="action.insertFlexibilityPoint.selectservice.allowDeleteMeasurements.label"
+					groupId="Fibre measurement options"
+					groupIdKey="action.insertFlexibilityPoint.selectservice.group.measurementOptions"
+					hintText="Allow deletion of fibre measurements on trail."
+					hintTextKey="action.insertFlexibilityPoint.selectservice.allowDeleteMeasurements.hinttext">
+				</textInput>
+			</selectService>
+		</action>
+	</actions>
+
+	<actions view="SPLICEVIEW">
+		<action id="digNewSplice" repeating="true" scope="global"
+			primaryView="SPLICEVIEW">
+			<textInputService id="cables"
+				prompt="Select cables, cable node and then enter pair range."
+				promptKey="action.digNewSplice.selectservice.prompt" helpKey="action.digNewSplice.selectservice.help">
+				<textInput id="fromCable" mandatory="true" displayLength="2"
+					row="1" label="From cable" repeating="false" classFilter="27 ConnectionsViewCableEnd"
+					fieldType="DomainObject" labelKey="action.digNewSplice.selectservice.fromCable.label"
+					hintText="" hintTextKey="action.digNewSplice.selectservice.fromCable.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="cableNode" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="fromPair" mandatory="true" label="From pair"
+					row="2" fieldType="Integer" repeating="false"
+					labelKey="action.digNewSplice.selectservice.fromPair.label"
+					lookupFunction="function?function=getFreeRangeInCable?node=:cableNode?cable=:fromCable?returnType=Integer"
+					hintText="First pair in from-cable to splice" hintTextKey="action.digNewSplice.selectservice.fromPair.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="toPairTo" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="toPair" mandatory="true" label="To pair"
+					row="2" column="2" fieldType="Integer" repeating="false"
+					labelKey="action.digNewSplice.selectservice.toPair.label"
+					lookupFunction="function?function=getFreeRangeInCable?node=:cableNode?cable=:fromCable?start=:fromPair?returnType=Integer"
+					hintText="Last pair in from-cable to splice" hintTextKey="action.digNewSplice.selectservice.toPair.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="toPairTo" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="toCable" mandatory="true" displayLength="2"
+					row="3" label="To cable" repeating="false" classFilter="27 ConnectionsViewCableEnd"
+					fieldType="DomainObject"
+					valueFunction="function?function=getCableInSelection?cables=:cables?index=1?returnType=DomainObject"
+					labelKey="action.digNewSplice.selectservice.toCable.label"
+					hintText="" hintTextKey="action.digNewSplice.selectservice.toCable.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="cableNode" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="fromPairTo" mandatory="true" label="From pair"
+					row="4" fieldType="Integer" repeating="false"
+					labelKey="action.digNewSplice.selectservice.fromPairTo.label"
+					lookupFunction="function?function=getFreeRangeInCable?node=:cableNode?cable=:toCable?returnType=Integer"
+					hintText="First pair in to-cable to splice" hintTextKey="action.digNewSplice.selectservice.fromPairTo.hinttext">
+					<eventHandlers>
+						<eventHandler event="valueCommit" operation="callFunction"
+							target="toPairTo" />
+					</eventHandlers>
+				</textInput>
+				<textInput id="toPairTo" mandatory="true" label="To pair"
+					row="4" column="2" fieldType="Integer" repeating="false"
+					labelKey="action.digNewSplice.selectservice.toPairTo.label"
+					valueFunction="function?function=getFreeRangeInCable?node=:cableNode?cable=:toCable?start=:fromPairTo?from=:fromPair?to=:toPair?returnType=Integer"
+					hintText="Last pair in to-cable to splice" hintTextKey="action.digNewSplice.selectservice.toPairTo.hinttext">
+				</textInput>
+				<textInput id="cableNode" mandatory="true" displayLength="2"
+					row="5" label="Cable node" repeating="false" fieldType="DomainObject"
+					classFilter="22 11"
+					valueFunction="function?function=getCommonCableNode?selection=:cables?cable1=:fromCable?cable2=:toCable?returnType=DomainObject?"
+					labelKey="action.digNewSplice.selectservice.cableNode.label"
+					hintText="" hintTextKey="action.digNewSplice.selectservice.cableNode.hinttext">
+				</textInput>
+				<textInput id="allowDifferentExchangeArea" mandatory="false"
+					label="Allow different exchange area" fieldType="boolean" row="6"
+					column="1" value="0"
+					labelKey="action.digNewSplice.textInputService.allowDifferentExchangeArea.label"
+					hintText="Allow splicing of objects belonging to different exchange area"
+					hintTextKey="action.digNewSplice.textInputService.allowDifferentExchangeArea.hinttext">
+				</textInput>
+			</textInputService>
+		</action>
+		<action id="digNewCableEnd" repeating="true" scope="global"
+			primaryView="SPLICEVIEW">
+			<textInputService id="cables"
+				prompt="Select cable to end and cable node and then enter pair range."
+				promptKey="action.digNewCableEnd.textInputService.prompt" helpKey="action.digNewCableEnd.textInputService.help">
+				<textInput id="cableNode" mandatory="true" displayLength="2"
+					row="1" label="Cable node" repeating="false" classFilter="11 22"
+					fieldType="DomainObject"
+					valueFunction="function?function=getNodeInSelection?cables=:cables?index=0?returnType=DomainObject"
+					labelKey="action.digNewCableEnd.textInputService.cableNode.label"
+					hintText=""
+					hintTextKey="action.digNewCableEnd.textInputService.cableNode.hinttext">
+				</textInput>
+				<textInput id="fromCable" mandatory="true" displayLength="2"
+					row="2" label="From cable" repeating="false" classFilter="27 ConnectionsViewCableEnd"
+					fieldType="DomainObject"
+					valueFunction="function?function=getCableInSelection?cables=:cables?index=0?returnType=DomainObject"
+					labelKey="action.digNewCableEnd.textInputService.fromCable.label"
+					hintText=""
+					hintTextKey="action.digNewCableEnd.textInputService.fromCable.hinttext">
+				</textInput>
+				<textInput id="fromPair" mandatory="true" label="From pair"
+					row="3" fieldType="Integer" repeating="false"
+					labelKey="action.digNewCableEnd.textInputService.fromPair.label"
+					lookupFunction="function?function=getFreeRangeInCable?node=:cableNode?cable=:fromCable?returnType=Integer"
+					hintText="First pair in from-cable to splice" hintTextKey="action.digNewCableEnd.textInputService.fromPair.hinttext">
+				</textInput>
+				<textInput id="toPair" mandatory="true" label="To pair"
+					row="3" column="2" fieldType="Integer" repeating="false"
+					labelKey="action.digNewSplice.textInputService.toPair.label"
+					lookupFunction="function?function=getFreeRangeInCable?node=:cableNode?cable=:fromCable?start=:fromPair?returnType=Integer"
+					hintText="Last pair in from-cable to splice" hintTextKey="action.digNewCableEnd.textInputService.toPair.hinttext">
+				</textInput>
+				<textInput id="allowDifferentExchangeArea" mandatory="false"
+					label="Allow different exchange area" fieldType="boolean" row="6"
+					column="1" value="0"
+					labelKey="action.digNewCableEnd.textInputService.allowDifferentExchangeArea.label"
+					hintText="Allow splicing of objects belonging to different exchange area"
+					hintTextKey="action.digNewCableEnd.textInputService.allowDifferentExchangeArea.hinttext">
+				</textInput>
+			</textInputService>
+		</action>
+	</actions>
+</viewActions>

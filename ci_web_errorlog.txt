@@ -1,0 +1,53 @@
+
+  ================================
+ // XML Key Extractor Error Log  \\
+//          XML Nodes:            \\
+====================================
+======= ERROR: Missing key  ========
+===== ci_web.properties info: ======
+|          Keys found: 436         |
+====================================
+ERROR: A key is missing
+
+
+
+<textInput id="edgeExcludeFilter" row="2" mandatory="false" label="Exclude selected" fieldType="boolean" />
+ERROR: A key is missing
+
+
+
+<textInput id="startType" row="1" mandatory="true" value="217" label="Start type">
+  <values>
+    <value label="Amplifier" value="217" labelKey="action.traceCATVNetwork.textInputService.217.label" />
+    <value label="Branching Filter" value="231" labelKey="action.traceCATVNetwork.textInputService.231.label" />
+    <value label="Cable Simulator" value="244" labelKey="action.traceCATVNetwork.textInputService.244.label" />
+    <value label="Filter" value="225" labelKey="action.traceCATVNetwork.textInputService.225.label" />
+    <value label="Optical Amplifier" value="246" labelKey="action.traceCATVNetwork.textInputService.246.label" />
+    <value label="Optical Receiver" value="240" labelKey="action.traceCATVNetwork.textInputService.240.label" />
+    <value label="Optical Splitter" value="242" labelKey="action.traceCATVNetwork.textInputService.242.label" />
+    <value label="Optical Transmitter" value="238" labelKey="action.traceCATVNetwork.textInputService.238.label" />
+    <value label="Power Supply" value="224" labelKey="action.traceCATVNetwork.textInputService.224.label" />
+    <value label="Signal Splitter" value="221" labelKey="action.traceCATVNetwork.textInputService.221.label" />
+    <value label="Subscriber Equipment" value="223" labelKey="action.traceCATVNetwork.textInputService.223.label" />
+  </values>
+  <eventHandlers>
+    <eventHandler event="valueCommit" operation="setValue" arg="" target="startNode" />
+    <eventHandler event="valueCommit" operation="setValue" arg="" target="edgeIncludeFilter" />
+  </eventHandlers>
+</textInput>
+ERROR: A key is missing
+
+
+
+<domainObjectList id="node1" mandatory="false" row="2" displayHeight="6" repeating="false" groupId="Possible CableNodes in each end" singleSelect="true" valueFunction="function?function=getCableNodesInTrackNode?selection=:path?end=0?returnType=DomainObject?" labelKey="action.dignewcable.domainObjectList.node1.label" />
+ERROR: A key is missing
+
+
+
+<domainObjectList id="node2" mandatory="false" row="3" displayHeight="6" repeating="false" groupId="Possible CableNodes in each end" singleSelect="true" valueFunction="function?function=getCableNodesInTrackNode?selection=:path?end=1?returnType=DomainObject?" labelKey="action.dignewcable.domainObjectList.node2.label" />
+ERROR: A key is missing
+
+
+
+<domainObjectList id="edgeFilter" mandatory="false" label="Follow cables" valueFunction="relation?relation=NEIGHBORS?object=:startObj?filter=27" />
+
